@@ -1,4 +1,4 @@
-package typespec
+package typespec.language
 
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.lang.ASTNode
@@ -17,6 +17,9 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
+import typespec.TsTypes
+import typespec._TsLexer
+import typespec._TsParser
 import javax.swing.Icon
 
 

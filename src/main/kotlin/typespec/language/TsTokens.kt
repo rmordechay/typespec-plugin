@@ -1,4 +1,4 @@
-package typespec
+package typespec.language
 
 import com.intellij.psi.tree.TokenSet
 import typespec.TsTypes.*

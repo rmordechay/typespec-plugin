@@ -1,4 +1,4 @@
-package typespec
+package typespec.highlighting
 
 import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors.*
@@ -12,14 +12,19 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
-import typespec.TsTextAttributes.BAD_CHARACTER_TEXT_ATTR
-import typespec.TsTextAttributes.BOOLEAN_TEXT_ATTR
-import typespec.TsTextAttributes.KEYWORD_TEXT_ATTR
-import typespec.TsTextAttributes.COMMENT_TEXT_ATTR
-import typespec.TsTextAttributes.MULTILINE_COMMENT_TEXT_ATTR
-import typespec.TsTextAttributes.NUMBERS_TEXT_ATTR
-import typespec.TsTextAttributes.STRING_TEXT_ATTR
-import typespec.TsTextAttributes.VARIABLE_TEXT_ATTR
+import typespec.*
+import typespec.highlighting.TsTextAttributes.BAD_CHARACTER_TEXT_ATTR
+import typespec.highlighting.TsTextAttributes.BOOLEAN_TEXT_ATTR
+import typespec.highlighting.TsTextAttributes.KEYWORD_TEXT_ATTR
+import typespec.highlighting.TsTextAttributes.COMMENT_TEXT_ATTR
+import typespec.highlighting.TsTextAttributes.MULTILINE_COMMENT_TEXT_ATTR
+import typespec.highlighting.TsTextAttributes.NUMBERS_TEXT_ATTR
+import typespec.highlighting.TsTextAttributes.STRING_TEXT_ATTR
+import typespec.highlighting.TsTextAttributes.VARIABLE_TEXT_ATTR
+import typespec.language.KEYWORDS_TOKENS
+import typespec.language.NUMBER_SET
+import typespec.language.STRING_LITERAL_SET
+import typespec.language.TsLexer
 
 class TsSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
     override fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?): SyntaxHighlighter {

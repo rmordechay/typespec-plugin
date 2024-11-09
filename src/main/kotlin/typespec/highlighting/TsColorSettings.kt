@@ -1,10 +1,11 @@
-package typespec
+package typespec.highlighting
 
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.options.colors.AttributesDescriptor
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
+import typespec.language.TsIcon
 import javax.swing.Icon
 
 private val DESCRIPTORS = arrayOf(

@@ -27,7 +27,7 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("232")
+        sinceBuild.set("222")
         untilBuild.set("242.*")
     }
 
@@ -42,14 +42,14 @@ tasks {
     }
 
     generateParser {
-        pathToParser = "src/main/kotlin/typespec/Grammar.bnf"
-        sourceFile = File("src/main/kotlin/typespec/Grammar.bnf")
+        pathToParser = "src/main/kotlin/typespec/language/Grammar.bnf"
+        sourceFile = File("src/main/kotlin/typespec/language/Grammar.bnf")
         pathToPsiRoot = "src/main/gen"
         targetRootOutputDir = File("src/main/gen")
     }
 
     generateLexer {
-        sourceFile = File("src/main/kotlin/typespec/Lexer.flex")
+        sourceFile = File("src/main/kotlin/typespec/language/Lexer.flex")
         targetOutputDir = File("src/main/gen/typespec")
     }
 }

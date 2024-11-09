@@ -8,8 +8,8 @@
     extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
 
     elementTypeHolderClass="typespec.TsTypes"
-    elementTypeClass="typespec.TsElementType"
-    tokenTypeClass="typespec.TsTokenType"
+    elementTypeClass="typespec.language.TsElementType"
+    tokenTypeClass="typespec.language.TsTokenType"
 
     tokens=[
         WHITE_SPACE='regexp:[ \n\r\t\f]+'
