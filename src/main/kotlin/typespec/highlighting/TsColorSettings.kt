@@ -20,6 +20,12 @@ private val DESCRIPTORS = arrayOf(
     AttributesDescriptor("Bad character", TsTextAttributes.BAD_CHARACTER_TEXT_ATTR),
 )
 
+private val ADDITIONAL_DESCRIPTORS = mutableMapOf(
+    "v" to TsTextAttributes.VARIABLE_TEXT_ATTR,
+    "d" to TsTextAttributes.DECORATOR_TEXT_ATTR,
+    "b" to TsTextAttributes.BUILTIN_TYPE_TEXT_ATTR,
+)
+
 /**
  *
  */
@@ -64,12 +70,39 @@ class TsColorSettings : ColorSettingsPage {
     *
     */
     override fun getDemoText(): String {
-        return ""
+        return """
+            import "@typespec/http";
+
+            // One line comment
+            using TypeSpec.Http;
+            
+            /**
+              Multi
+              Line
+              Comment
+            */
+            model Store {
+              name: <b>string</b>;
+              address: Address;
+            }
+           
+            @<d>route</d>("/stores")
+            interface Stores {
+              list(@<d>query</d> filter: <b>string</b>): Store[];
+              read(@<d>path</d> id: Store): Store;
+            }
+            
+            @<d>post</d>
+            @<d>route</d>("/items/{product_id}")
+            op addItemToWishlist(@<d>path</d> product_id: <b>string</b>): {
+                @<d>statusCode</d> statusCode: 201;
+            };
+        """.trimIndent()
     }
     /**
     *
     */
     override fun getAdditionalHighlightingTagToDescriptorMap(): MutableMap<String, TextAttributesKey> {
-        return mutableMapOf()
+        return ADDITIONAL_DESCRIPTORS
     }
 }
