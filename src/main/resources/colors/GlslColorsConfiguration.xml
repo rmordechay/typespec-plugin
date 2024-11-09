@@ -1,0 +1,43 @@
+<?xml version='1.0'?>
+<list>
+    <option name="TS_KEYWORD">
+        <value>
+            <option name="FOREGROUND" value="FC8585"/>
+        </value>
+    </option>
+    <option name="TS_VARIABLE">
+        <value>
+            <option name="FOREGROUND" value="6595C7"/>
+        </value>
+    </option>
+    <option name="TS_STRING">
+        <value>
+            <option name="FOREGROUND" value="E6DB74"/>
+        </value>
+    </option>
+    <option name="TS_BOOLEAN">
+        <value>
+            <option name="FOREGROUND" value="F92674"/>
+        </value>
+    </option>
+    <option name="TS_NUMBER">
+        <value>
+            <option name="FOREGROUND" value="A2AC5D"/>
+        </value>
+    </option>
+    <option name="TS_DECORATOR">
+        <value>
+            <option name="FOREGROUND" value="6f9a52"/>
+        </value>
+    </option>
+    <option name="TS_LINE_COMMENT">
+        <value>
+            <option name="FOREGROUND" value="888888"/>
+        </value>
+    </option>
+    <option name="TS_MULTILINE_COMMENT">
+        <value>
+            <option name="FOREGROUND" value="629755"/>
+        </value>
+    </option>
+</list>

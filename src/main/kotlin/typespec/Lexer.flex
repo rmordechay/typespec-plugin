@@ -1,7 +1,7 @@
 package typespec;
 
 import com.intellij.lexer.FlexLexer;
-import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.IElementType;import kotlinx.serialization.descriptors.PrimitiveKind;
 
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
@@ -24,16 +24,8 @@ import static typespec.TsTypes.*;
 
 EOL=\R
 WHITE_SPACE=\s+
-
-IDENTIFIER=[a-zA-Z_$]+\w*
-BOOL_LITERAL=false|true
-STRING_LITERAL1='.*'
-STRING_LITERAL2=`.*`
-STRING_LITERAL3=\".*\"
-STRING_LITERAL4='''.*'''
-STRING_LITERAL5=\"\"\".*\"\"\"
-INT_LITERAL=\d+
-FLOAT_LITERAL={INT_LITERAL}"."{INT_LITERAL}
+COMMENT="//"[^\n]*
+MULTILINE_COMMENT=\/\*\*([^*]|\*+[^*/])*\*+\/
 
 PIPE="|"
 QUESTION="?"
@@ -51,6 +43,7 @@ LBRACE="{"
 RBRACE="}"
 LBRACK="["
 RBRACK="]"
+DOUBLE_AT='@@'
 AT="@"
 ELLIPSIS="..."
 HASH="#"
@@ -66,11 +59,28 @@ INTERFACE="interface"
 INIT="init"
 OP="op"
 ENUM="enum"
+TYPEOF="typeof"
+EXTERN="extern"
+DEC="dec"
+FN="fn"
+ALIAS="alias"
+
+IDENTIFIER=[a-zA-Z_$]+\w*
+BOOL_LITERAL=false|true
+STRING_LITERAL1='.*'
+STRING_LITERAL2=`.*`
+STRING_LITERAL3=\".*\"
+STRING_LITERAL4='''[^']*'''
+STRING_LITERAL5=\"\"\"[^\"]*\"\"\"
+INT_LITERAL=\d+
+FLOAT_LITERAL={INT_LITERAL}"."{INT_LITERAL}
 
 %%
 <YYINITIAL> {
   {WHITE_SPACE}          { return WHITE_SPACE; }
   {EOL}                  { return WHITE_SPACE; }
+  {COMMENT}              { return COMMENT; }
+  {MULTILINE_COMMENT}    { return MULTILINE_COMMENT; }
 
   {PIPE}                 { return PIPE;}
   {QUESTION}             { return QUESTION;}
@@ -89,6 +99,7 @@ ENUM="enum"
   {LBRACK}               { return LBRACK;}
   {RBRACK}               { return RBRACK;}
   {AT}                   { return AT;}
+  {DOUBLE_AT}            { return DOUBLE_AT;}
   {ELLIPSIS}             { return ELLIPSIS;}
   {HASH}                 { return HASH;}
 
@@ -103,6 +114,11 @@ ENUM="enum"
   {INIT}                 { return INIT; }
   {OP}                   { return OP; }
   {ENUM}                 { return ENUM; }
+  {TYPEOF}               { return TYPEOF; }
+  {EXTERN}               { return EXTERN; }
+  {DEC}                  { return DEC; }
+  {FN}                   { return FN; }
+  {ALIAS}                { return ALIAS; }
 
   {INT_LITERAL}          { return INT_LITERAL; }
   {FLOAT_LITERAL}        { return FLOAT_LITERAL; }

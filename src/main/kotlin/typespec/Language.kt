@@ -80,7 +80,7 @@ class TsParser : ParserDefinition {
     }
 
     override fun getCommentTokens(): TokenSet {
-        return TokenSet.create()
+        return TokenSet.create(TsTypes.COMMENT, TsTypes.MULTILINE_COMMENT)
     }
 
     override fun getStringLiteralElements(): TokenSet {
