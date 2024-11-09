@@ -2,9 +2,10 @@ plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "1.9.25"
     id("org.jetbrains.intellij") version "1.17.4"
+    id("org.jetbrains.grammarkit") version "2022.3.2.2"
 }
 
-group = "com"
+group = "typespec"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -14,7 +15,6 @@ repositories {
 intellij {
     version.set("2023.2.6")
     type.set("IC")
-    plugins.set(listOf(/* Plugin Dependencies */))
 }
 
 tasks {
@@ -40,4 +40,19 @@ tasks {
     publishPlugin {
         token.set(System.getenv("PUBLISH_TOKEN"))
     }
+
+    generateParser {
+        pathToParser = "src/main/kotlin/typespec/Grammar.bnf"
+        sourceFile = File("src/main/kotlin/typespec/Grammar.bnf")
+        pathToPsiRoot = "src/main/gen"
+        targetRootOutputDir = File("src/main/gen")
+    }
+
+    generateLexer {
+        sourceFile = File("src/main/kotlin/typespec/Lexer.flex")
+        targetOutputDir = File("src/main/gen/typespec")
+    }
 }
+
+sourceSets["main"].java.srcDirs("src/main/gen")
+

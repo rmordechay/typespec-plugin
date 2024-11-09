@@ -1,0 +1,357 @@
+{
+    parserClass="typespec._TsParser"
+    psiClassPrefix="Ts"
+    psiImplClassSuffix="Impl"
+    psiPackage="typespec.psi.interfaces"
+    psiImplPackage="typespec.psi.impl"
+
+    extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+    elementTypeHolderClass="typespec.TsTypes"
+    elementTypeClass="typespec.TsElementType"
+    tokenTypeClass="typespec.TsTokenType"
+
+    tokens=[
+        WHITE_SPACE='regexp:[ \n\r\t\f]+'
+        STRING_LITERAL1='regexp:(\"([^\"\\]|\\.)*\")'
+        STRING_LITERAL2='regexp:(\"\"\"([^\"\\]|\\.)*\"\"\")'
+        INT_LITERAL='regexp:\d+'
+        FLOAT_LITERAL='regexp:\d+\.\d+'
+
+        PIPE='|'
+        QUESTION='?'
+        EQUALS='='
+        AMPERSAND='&'
+        COLON=':'
+        COMMA=','
+        SEMICOLON=';'
+        DOT='.'
+        LT='<'
+        GT='>'
+        LPAREN='('
+        RPAREN=')'
+        LBRACE='{'
+        RBRACE='}'
+        LBRACK='['
+        RBRACK=']'
+        AT='@'
+        ELLIPSIS='...'
+        HASH='#'
+
+        IMPORT="import"
+        USING="using"
+        NAMESPACE="namespace"
+        SCALAR="scalar"
+        MODEL="model"
+        EXTENDS="extends"
+        IS="is"
+        INTERFACE="interface"
+        INIT="init"
+        OP="op"
+        ENUM="enum"
+
+        IDENTIFIER="regexp:[a-zA-Z_$]+\w*"
+    ]
+}
+
+typeSpecFile ::= TypeSpecScript
+
+TypeSpecScript ::=
+        TypeSpecScriptItem*
+
+TypeSpecScriptItem ::=
+        BlocklessNamespaceStatement
+    |   ImportStatement
+    |   Statement
+
+BlocklessNamespaceStatement ::=
+        DecoratorList? NAMESPACE IdentifierOrMemberExpression SEMICOLON
+
+ImportStatement ::=
+        IMPORT StringLiteral SEMICOLON
+
+StatementList ::=
+        Statement+
+
+Statement ::=
+        ModelStatement
+    |   ScalarStatement
+    |   InterfaceStatement
+    |   NamespaceStatement
+    |   OperationStatement
+    |   UsingStatement
+    |   EnumStatement
+    |   AliasStatement
+    |   AugmentDecoratorStatement
+    |   DecoratorDeclarationStatement
+    |   FunctionDeclarationStatement
+    |   SEMICOLON
+
+UsingStatement ::=
+        USING IdentifierOrMemberExpression SEMICOLON
+
+ModelStatement ::=
+        DecoratorList? MODEL IdentifierVariable TemplateParameters? ModelHeritage? LBRACE ModelBody? RBRACE
+    |   DecoratorList? MODEL IdentifierVariable TemplateParameters? IsModelHeritage SEMICOLON
+
+IsModelHeritage ::=
+        IS Expression
+
+ScalarStatement ::=
+        DecoratorList? SCALAR IdentifierVariable TemplateParameters? ScalarExtends? SEMICOLON
+    |   DecoratorList? SCALAR IdentifierVariable TemplateParameters? ScalarExtends? LBRACE ScalarBody? RBRACE
+
+ScalarExtends ::=
+        EXTENDS Expression
+
+ScalarBody ::=
+        ScalarMemberList SEMICOLON?
+
+ScalarMemberList ::=
+        ScalarMember (SEMICOLON ScalarMember)*
+
+ScalarMember::=
+        INIT IdentifierVariable LPAREN FunctionParameterList? RPAREN
+
+ExtendsModelHeritage ::=
+        EXTENDS Expression
+
+ModelHeritage ::=
+        IsModelHeritage
+    |   ExtendsModelHeritage
+    
+ModelBody ::=
+        ModelPropertyList COMMA?
+    |   ModelPropertyList SEMICOLON?
+
+ModelPropertyList ::=
+        ModelProperty ((COMMA|SEMICOLON) ModelProperty)*
+
+ModelProperty ::=
+        ModelSpreadProperty
+    |   DecoratorList? IdentifierVariable QUESTION? COLON Expression
+    |   DecoratorList? StringLiteral QUESTION? COLON Expression
+
+ModelSpreadProperty ::=
+        ELLIPSIS ReferenceExpression
+
+InterfaceStatement ::=
+        INTERFACE IdentifierVariable TemplateParameters? InterfaceHeritage? LBRACE InterfaceBody? RBRACE
+
+InterfaceHeritage ::=
+        EXTENDS ReferenceExpressionList;
+
+InterfaceBody ::=
+        InterfaceMemberList SEMICOLON?
+
+InterfaceMemberList ::=
+        InterfaceMember (SEMICOLON InterfaceMember)*
+
+InterfaceMember ::=
+        OP? IdentifierVariable OperationSignature
+
+EnumStatement ::=
+        DecoratorList? ENUM IdentifierVariable LBRACE EnumBody? RBRACE
+
+EnumBody ::=
+        EnumMemberList COMMA?
+    |   EnumMemberList SEMICOLON?
+
+EnumMemberList ::=
+    EnumMember ((COMMA|SEMICOLON) EnumMember)*
+
+EnumMember ::=
+        EnumSpreadMember
+    |   DecoratorList? IdentifierVariable EnumMemberValue?
+    |   DecoratorList? StringLiteral EnumMemberValue?
+
+EnumSpreadMember ::=
+        ELLIPSIS ReferenceExpression
+
+EnumMemberValue ::=
+        COLON StringLiteral
+    |   COLON NumericLiteral
+
+AliasStatement ::=
+        'alias' IdentifierVariable TemplateParameters? EQUALS Expression;
+    
+TemplateParameters ::=
+        '<' TemplateParameterList '>'
+
+TemplateParameterList ::=
+        TemplateParameter (COMMA TemplateParameter)*
+
+TemplateParameter ::=
+        IdentifierVariable TemplateParameterConstraint? TemplateParameterDefault?
+
+TemplateParameterConstraint ::=
+        EXTENDS MixedParameterConstraint
+
+MixedParameterConstraint ::=
+//  UnionExpressionOrHigher[+InParameter]
+        UnionExpressionOrHigher
+    |   valueof UnionExpressionOrHigher
+
+  
+TemplateParameterDefault ::=
+        EQUALS Expression
+
+NamespaceStatement ::=
+        DecoratorList? NAMESPACE IdentifierOrMemberExpression LBRACE StatementList? RBRACE
+
+OperationSignatureDeclaration ::=
+        LPAREN ModelPropertyList? RPAREN COLON Expression
+
+OperationSignatureReference ::=
+        IS ReferenceExpression
+
+OperationSignature ::=
+        OperationSignatureDeclaration
+    |   OperationSignatureReference
+
+OperationStatement ::=
+        DecoratorList? OP IdentifierVariable TemplateParameters? OperationSignature SEMICOLON
+
+Expression ::=
+        UnionExpressionOrHigher
+
+//UnionExpressionOrHigher[InParameter] ::=
+//    IntersectionExpressionOrHigher[?InParameter]
+//    '|'? UnionExpressionOrHigher[?InParameter] '|' IntersectionExpressionOrHigher[?InParameter]
+
+UnionExpressionOrHigher ::=
+        IntersectionExpressionOrHigher ('|' IntersectionExpressionOrHigher)*
+
+//IntersectionExpressionOrHigher[InParameter] ::=
+//    ArrayExpressionOrHigher[?InParameter]
+//    '&'? IntersectionExpressionOrHigher[?InParameter] '&' ArrayExpressionOrHigher[?InParameter]
+
+IntersectionExpressionOrHigher ::=
+        ArrayExpressionOrHigher ('&' ArrayExpressionOrHigher)*
+//    |   '&'? IntersectionExpressionOrHigher '&' ArrayExpressionOrHigher
+
+
+TypeOfExpression ::=
+        'typeof' Literal
+    |   'typeof' ReferenceExpression
+    |   'typeof' ParenthesizedExpression
+
+//ArrayExpressionOrHigher[InParameter] ::=
+//    PrimaryExpression[?InParameter]
+//    ArrayExpressionOrHigher[?InParameter] LBRACK RBRACK
+
+ArrayExpressionOrHigher ::=
+        PrimaryExpression (LBRACK RBRACK)*
+
+//PrimaryExpression[InParameter] ::=
+PrimaryExpression ::=
+        TypeOfExpression
+    |   Literal
+    |   CallOrReferenceExpression
+//    ParenthesizedExpression[?InParameter]
+    |   ParenthesizedExpression
+    |   ObjectLiteral
+    |   ArrayLiteral
+    |   ModelExpression
+    |   TupleExpression
+
+Literal ::=
+        StringLiteral
+    |   BooleanLiteral
+    |   NumericLiteral
+
+CallOrReferenceExpression ::=
+        CallExpression
+    |   ReferenceExpression
+//CallExpression
+//    IdentifierOrMemberExpression CallArguments
+
+ReferenceExpression ::=
+        IdentifierOrMemberExpression TemplateArguments?
+
+ReferenceExpressionList ::=
+        ReferenceExpression (COMMA ReferenceExpression)*
+
+IdentifierOrMemberExpression ::=
+        IdentifierVariable (DOT IdentifierVariable)*
+
+TemplateArguments ::=
+        '<' ExpressionList '>'
+
+//ParenthesizedExpression[InParameter] ::=
+//    [~InParameter] LPAREN Expression RPAREN
+//    [+InParameter] LPAREN MixedParameterConstraint RPAREN
+ParenthesizedExpression ::=
+        LPAREN Expression RPAREN
+    |   LPAREN MixedParameterConstraint RPAREN
+
+ObjectLiteral ::=
+        '#{' ObjectLiteralBody? RBRACE
+
+ObjectLiteralBody ::=
+        ModelPropertyList COMMA?
+
+ArrayLiteral ::=
+        '#[' ExpressionList? RBRACK
+
+ModelExpression ::=
+        LBRACE ModelBody? RBRACE
+
+TupleExpression ::=
+        LBRACK ExpressionList? RBRACK
+
+ExpressionList ::=
+        Expression (COMMA Expression)*
+
+DecoratorList ::=
+        Decorator+
+
+Decorator ::=
+        AT IdentifierOrMemberExpression DecoratorArguments?
+
+DecoratorArguments ::=
+        LPAREN ExpressionList? RPAREN
+
+CallExpression ::=
+        IdentifierOrMemberExpression LPAREN ExpressionList? RPAREN
+
+AugmentDecoratorStatement ::=
+        '@@' IdentifierOrMemberExpression DecoratorArguments?
+
+//AugmentDecoratorArguments ::=
+//  LPAREN ExpressionList RPAREN
+
+DecoratorDeclarationStatement ::=
+        DecoratorModifiers? 'dec' LPAREN FunctionParameterList? RPAREN
+
+DecoratorModifiers::=
+        'extern'
+
+FunctionDeclarationStatement ::=
+        FunctionModifiers? 'fn' LPAREN FunctionParameterList? RPAREN TypeAnnotation?
+
+TypeAnnotation ::=
+        COLON MixedParameterConstraint
+
+FunctionModifiers ::=
+        'extern'
+
+FunctionParameterList ::=
+        FunctionParameter (COMMA FunctionParameter)*
+
+FunctionParameter ::=
+        ELLIPSIS? IdentifierVariable QUESTION? TypeAnnotation?
+
+IdentifierVariable ::=
+        IDENTIFIER
+
+StringLiteral ::=
+        STRING_LITERAL1
+    |   STRING_LITERAL2
+
+NumericLiteral ::=
+        INT_LITERAL
+    |   FLOAT_LITERAL
+
+BooleanLiteral ::=
+        BOOL_LITERAL

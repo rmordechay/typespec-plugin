@@ -5,11 +5,7 @@
 
     <depends>com.intellij.modules.platform</depends>
     <extensions defaultExtensionNs="com.intellij">
-        <fileType
-                name="TypeSpec"
-                implementationClass="typespec.TsFileType"
-                fieldName="INSTANCE"
-                language="TypeSpec"
-                extensions="tsp"/>
+        <fileType name="TypeSpec" implementationClass="typespec.TsFileType" fieldName="INSTANCE" language="TypeSpec" extensions="tsp"/>
+        <lang.parserDefinition language="TypeSpec" implementationClass="typespec.TsParser"/>
     </extensions>
 </idea-plugin>
