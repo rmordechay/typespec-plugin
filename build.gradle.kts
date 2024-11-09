@@ -3,10 +3,11 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.9.25"
     id("org.jetbrains.intellij") version "1.17.4"
     id("org.jetbrains.grammarkit") version "2022.3.2.2"
+    id("org.jetbrains.changelog") version "1.3.1"
 }
 
 group = "typespec"
-version = "1.0-SNAPSHOT"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -26,9 +27,11 @@ tasks {
         kotlinOptions.jvmTarget = "17"
     }
 
+
     patchPluginXml {
         sinceBuild.set("222")
         untilBuild.set("242.*")
+        changeNotes = changelog.get(project.version.toString()).toHTML()
     }
 
     signPlugin {
