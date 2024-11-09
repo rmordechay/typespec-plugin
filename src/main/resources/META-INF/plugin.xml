@@ -1,0 +1,15 @@
+<idea-plugin>
+    <id>TypeSpec</id>
+    <name>TypeSpec</name>
+    <vendor>Roi Mordechay</vendor>
+
+    <depends>com.intellij.modules.platform</depends>
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType
+                name="TypeSpec"
+                implementationClass="typespec.TsFileType"
+                fieldName="INSTANCE"
+                language="TypeSpec"
+                extensions="tsp"/>
+    </extensions>
+</idea-plugin>
