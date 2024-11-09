@@ -10,9 +10,14 @@
             <option name="FOREGROUND" value="6595C7"/>
         </value>
     </option>
+    <option name="TS_BUILTIN_TYPE">
+        <value>
+            <option name="FOREGROUND" value="AA7B8F"/>
+        </value>
+    </option>
     <option name="TS_STRING">
         <value>
-            <option name="FOREGROUND" value="E6DB74"/>
+            <option name="FOREGROUND" value="D2C252"/>
         </value>
     </option>
     <option name="TS_BOOLEAN">
@@ -27,7 +32,7 @@
     </option>
     <option name="TS_DECORATOR">
         <value>
-            <option name="FOREGROUND" value="D2AB62"/>
+            <option name="FOREGROUND" value="7CA577"/>
         </value>
     </option>
     <option name="TS_COMMENT">
@@ -37,7 +42,7 @@
     </option>
     <option name="TS_MULTILINE_COMMENT">
         <value>
-            <option name="FOREGROUND" value="629755"/>
+            <option name="FOREGROUND" value="A18F89"/>
         </value>
     </option>
 </list>

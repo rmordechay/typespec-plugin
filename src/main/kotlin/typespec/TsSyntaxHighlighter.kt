@@ -65,6 +65,7 @@ object TsTextAttributes {
     val NUMBERS_TEXT_ATTR = createTextAttributesKey("TS_NUMBER", NUMBER)
     val KEYWORD_TEXT_ATTR = createTextAttributesKey("TS_KEYWORD", KEYWORD)
     val DECORATOR_TEXT_ATTR = createTextAttributesKey("TS_DECORATOR", KEYWORD)
+    val BUILTIN_TYPE_TEXT_ATTR = createTextAttributesKey("TS_BUILTIN_TYPE", KEYWORD)
     val COMMENT_TEXT_ATTR = createTextAttributesKey("TS_COMMENT", LINE_COMMENT)
     val MULTILINE_COMMENT_TEXT_ATTR = createTextAttributesKey("TS_MULTILINE_COMMENT", LINE_COMMENT)
     val BAD_CHARACTER_TEXT_ATTR = createTextAttributesKey("TS_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER)

@@ -53,6 +53,7 @@
         DEC="dec"
         FN="fn"
         ALIAS="alias"
+        SUPPRESS="suppress"
 
         STRING_LITERAL1="regexp:'.*'"
         STRING_LITERAL2="regexp:`.*`"
@@ -73,7 +74,10 @@ private TypeSpecScript ::=
 private TypeSpecScriptItem ::=
         BlocklessNamespaceStatement
     |   ImportStatement
+    |   SuppressStatement
     |   Statement
+
+private SuppressStatement ::= HASH SUPPRESS StringLiteral StringLiteral?
 
 private BlocklessNamespaceStatement ::=
         DecoratorList? NAMESPACE IdentifierOrMemberExpression SEMICOLON
@@ -223,40 +227,25 @@ private OperationStatement ::=
 private Expression ::=
         UnionExpressionOrHigher
 
-private //UnionExpressionOrHigher[InParameter] ::=
-//    IntersectionExpressionOrHigher[?InParameter]
-//    PIPE? UnionExpressionOrHigher[?InParameter] PIPE IntersectionExpressionOrHigher[?InParameter]
-
 private UnionExpressionOrHigher ::=
         IntersectionExpressionOrHigher (PIPE IntersectionExpressionOrHigher)*
 
-private //IntersectionExpressionOrHigher[InParameter] ::=
-//    ArrayExpressionOrHigher[?InParameter]
-//    AMPERSEND? IntersectionExpressionOrHigher[?InParameter] AMPERSEND ArrayExpressionOrHigher[?InParameter]
 
 private IntersectionExpressionOrHigher ::=
         ArrayExpressionOrHigher (AMPERSEND ArrayExpressionOrHigher)*
-//    |   AMPERSEND? IntersectionExpressionOrHigher AMPERSEND ArrayExpressionOrHigher
-
 
 private TypeOfExpression ::=
         TYPEOF Literal
     |   TYPEOF ReferenceExpression
     |   TYPEOF ParenthesizedExpression
 
-private //ArrayExpressionOrHigher[InParameter] ::=
-//    PrimaryExpression[?InParameter]
-//    ArrayExpressionOrHigher[?InParameter] LBRACK RBRACK
-
 private ArrayExpressionOrHigher ::=
         PrimaryExpression (LBRACK RBRACK)*
 
-private //PrimaryExpression[InParameter] ::=
 private PrimaryExpression ::=
         TypeOfExpression
     |   Literal
     |   CallOrReferenceExpression
-//    ParenthesizedExpression[?InParameter]
     |   ParenthesizedExpression
     |   ObjectLiteral
     |   ArrayLiteral
@@ -271,8 +260,6 @@ private Literal ::=
 private CallOrReferenceExpression ::=
         CallExpression
     |   ReferenceExpression
-//CallExpression
-//    IdentifierOrMemberExpression CallArguments
 
 private ReferenceExpression ::=
         IdentifierOrMemberExpression TemplateArguments?
@@ -286,9 +273,6 @@ private IdentifierOrMemberExpression ::=
 private TemplateArguments ::=
         LT ExpressionList GT
 
-private //ParenthesizedExpression[InParameter] ::=
-//    [~InParameter] LPAREN Expression RPAREN
-//    [+InParameter] LPAREN MixedParameterConstraint RPAREN
 private ParenthesizedExpression ::=
         LPAREN Expression RPAREN
     |   LPAREN MixedParameterConstraint RPAREN
@@ -326,8 +310,6 @@ private CallExpression ::=
 private AugmentDecoratorStatement ::=
         DOUBLE_AT IdentifierOrMemberExpression DecoratorArguments?
 
-private //AugmentDecoratorArguments ::=
-//  LPAREN ExpressionList RPAREN
 
 private DecoratorDeclarationStatement ::=
         DecoratorModifiers? DEC LPAREN FunctionParameterList? RPAREN

@@ -11,6 +11,7 @@ private val DESCRIPTORS = arrayOf(
     AttributesDescriptor("Comment // Multi-line", TsTextAttributes.MULTILINE_COMMENT_TEXT_ATTR),
     AttributesDescriptor("Comment // One-line", TsTextAttributes.COMMENT_TEXT_ATTR),
     AttributesDescriptor("Identifier", TsTextAttributes.VARIABLE_TEXT_ATTR),
+    AttributesDescriptor("Builtin types", TsTextAttributes.BUILTIN_TYPE_TEXT_ATTR),
     AttributesDescriptor("Decorator", TsTextAttributes.DECORATOR_TEXT_ATTR),
     AttributesDescriptor("String", TsTextAttributes.STRING_TEXT_ATTR),
     AttributesDescriptor("Number", TsTextAttributes.NUMBERS_TEXT_ATTR),

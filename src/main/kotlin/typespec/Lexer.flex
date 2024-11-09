@@ -64,6 +64,7 @@ EXTERN="extern"
 DEC="dec"
 FN="fn"
 ALIAS="alias"
+SUPPRESS="suppress"
 
 IDENTIFIER=[a-zA-Z_$]+\w*
 BOOL_LITERAL=false|true
@@ -119,6 +120,7 @@ FLOAT_LITERAL={INT_LITERAL}"."{INT_LITERAL}
   {DEC}                  { return DEC; }
   {FN}                   { return FN; }
   {ALIAS}                { return ALIAS; }
+  {SUPPRESS}             { return SUPPRESS; }
 
   {INT_LITERAL}          { return INT_LITERAL; }
   {FLOAT_LITERAL}        { return FLOAT_LITERAL; }
