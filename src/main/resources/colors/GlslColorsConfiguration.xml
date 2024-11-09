@@ -17,7 +17,7 @@
     </option>
     <option name="TS_BOOLEAN">
         <value>
-            <option name="FOREGROUND" value="F92674"/>
+            <option name="FOREGROUND" value="FC8585"/>
         </value>
     </option>
     <option name="TS_NUMBER">
@@ -27,10 +27,10 @@
     </option>
     <option name="TS_DECORATOR">
         <value>
-            <option name="FOREGROUND" value="6f9a52"/>
+            <option name="FOREGROUND" value="D2AB62"/>
         </value>
     </option>
-    <option name="TS_LINE_COMMENT">
+    <option name="TS_COMMENT">
         <value>
             <option name="FOREGROUND" value="888888"/>
         </value>

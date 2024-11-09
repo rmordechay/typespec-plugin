@@ -15,6 +15,8 @@ import com.intellij.psi.tree.IElementType
 import typespec.TsTextAttributes.BAD_CHARACTER_TEXT_ATTR
 import typespec.TsTextAttributes.BOOLEAN_TEXT_ATTR
 import typespec.TsTextAttributes.KEYWORD_TEXT_ATTR
+import typespec.TsTextAttributes.COMMENT_TEXT_ATTR
+import typespec.TsTextAttributes.MULTILINE_COMMENT_TEXT_ATTR
 import typespec.TsTextAttributes.NUMBERS_TEXT_ATTR
 import typespec.TsTextAttributes.STRING_TEXT_ATTR
 import typespec.TsTextAttributes.VARIABLE_TEXT_ATTR
@@ -40,8 +42,8 @@ class TsSyntaxHighlighter : SyntaxHighlighterBase() {
      */
     private fun mapTokenToTextAttr(tokenType: IElementType): TextAttributesKey? {
         return when (tokenType) {
-//            GlslTypes.LINE_COMMENT -> LINE_COMMENT_TEXT_ATTR
-//            GlslTypes.MULTILINE_COMMENT -> MULTILINE_COMMENT_TEXT_ATTR
+            TsTypes.COMMENT -> COMMENT_TEXT_ATTR
+            TsTypes.MULTILINE_COMMENT -> MULTILINE_COMMENT_TEXT_ATTR
             TsTypes.BOOL_LITERAL -> BOOLEAN_TEXT_ATTR
             TsTypes.IDENTIFIER -> VARIABLE_TEXT_ATTR
             in STRING_LITERAL_SET -> STRING_TEXT_ATTR
@@ -63,7 +65,7 @@ object TsTextAttributes {
     val NUMBERS_TEXT_ATTR = createTextAttributesKey("TS_NUMBER", NUMBER)
     val KEYWORD_TEXT_ATTR = createTextAttributesKey("TS_KEYWORD", KEYWORD)
     val DECORATOR_TEXT_ATTR = createTextAttributesKey("TS_DECORATOR", KEYWORD)
-    val LINE_COMMENT_TEXT_ATTR = createTextAttributesKey("TS_LINE_COMMENT", LINE_COMMENT)
+    val COMMENT_TEXT_ATTR = createTextAttributesKey("TS_COMMENT", LINE_COMMENT)
     val MULTILINE_COMMENT_TEXT_ATTR = createTextAttributesKey("TS_MULTILINE_COMMENT", LINE_COMMENT)
     val BAD_CHARACTER_TEXT_ATTR = createTextAttributesKey("TS_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER)
 }

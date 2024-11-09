@@ -10,5 +10,6 @@
         <lang.syntaxHighlighterFactory language="TypeSpec" implementationClass="typespec.TsSyntaxHighlighterFactory"/>
         <additionalTextAttributes scheme="Darcula" file="colors/GlslColorsConfiguration.xml"/>
         <annotator language="TypeSpec" implementationClass="typespec.TsHighlightAnnotator"/>
+        <colorSettingsPage implementation="typespec.TsColorSettings"/>
     </extensions>
 </idea-plugin>
