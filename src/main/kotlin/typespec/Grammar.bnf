@@ -13,10 +13,13 @@
 
     tokens=[
         WHITE_SPACE='regexp:[ \n\r\t\f]+'
-        STRING_LITERAL1='regexp:(\"([^\"\\]|\\.)*\")'
-        STRING_LITERAL2='regexp:(\"\"\"([^\"\\]|\\.)*\"\"\")'
-        INT_LITERAL='regexp:\d+'
-        FLOAT_LITERAL='regexp:\d+\.\d+'
+        STRING_LITERAL1="regexp:'.*'"
+        STRING_LITERAL2="regexp:`.*`"
+        STRING_LITERAL3='regexp:\".*\"'
+        STRING_LITERAL4="regexp:'''[^']*'''"
+        STRING_LITERAL5="regexp:\"\"\"[^\"]*\"\"\""
+        INT_LITERAL='regexp:-?\d+'
+        FLOAT_LITERAL='regexp:-?\d+\.\d+'
 
         PIPE='|'
         QUESTION='?'
@@ -121,16 +124,14 @@ ModelHeritage ::=
     |   ExtendsModelHeritage
     
 ModelBody ::=
-        ModelPropertyList COMMA?
-    |   ModelPropertyList SEMICOLON?
+        ModelPropertyList (COMMA|SEMICOLON)?
 
 ModelPropertyList ::=
         ModelProperty ((COMMA|SEMICOLON) ModelProperty)*
 
 ModelProperty ::=
         ModelSpreadProperty
-    |   DecoratorList? IdentifierVariable QUESTION? COLON Expression
-    |   DecoratorList? StringLiteral QUESTION? COLON Expression
+    |   DecoratorList? (IdentifierVariable|StringLiteral) QUESTION? COLON Expression (EQUALS Expression)?
 
 ModelSpreadProperty ::=
         ELLIPSIS ReferenceExpression
@@ -154,11 +155,10 @@ EnumStatement ::=
         DecoratorList? ENUM IdentifierVariable LBRACE EnumBody? RBRACE
 
 EnumBody ::=
-        EnumMemberList COMMA?
-    |   EnumMemberList SEMICOLON?
+        EnumMemberList (COMMA|SEMICOLON)?
 
 EnumMemberList ::=
-    EnumMember ((COMMA|SEMICOLON) EnumMember)*
+        EnumMember ((COMMA|SEMICOLON) EnumMember)*
 
 EnumMember ::=
         EnumSpreadMember
@@ -200,7 +200,7 @@ NamespaceStatement ::=
         DecoratorList? NAMESPACE IdentifierOrMemberExpression LBRACE StatementList? RBRACE
 
 OperationSignatureDeclaration ::=
-        LPAREN ModelPropertyList? RPAREN COLON Expression
+        LPAREN (ModelPropertyList (COMMA|SEMICOLON)?)?  RPAREN COLON Expression
 
 OperationSignatureReference ::=
         IS ReferenceExpression
@@ -348,6 +348,9 @@ IdentifierVariable ::=
 StringLiteral ::=
         STRING_LITERAL1
     |   STRING_LITERAL2
+    |   STRING_LITERAL3
+    |   STRING_LITERAL4
+    |   STRING_LITERAL5
 
 NumericLiteral ::=
         INT_LITERAL

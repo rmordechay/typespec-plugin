@@ -56,3 +56,11 @@ tasks {
 
 sourceSets["main"].java.srcDirs("src/main/gen")
 
+tasks.register("generateGrammarClean") {
+    val dirToDelete = file("src/main/gen")
+    doFirst {
+        println("Deleting directory: ${dirToDelete.path}")
+        dirToDelete.deleteRecursively()
+    }
+    finalizedBy("generateParser", "generateLexer")
+}
