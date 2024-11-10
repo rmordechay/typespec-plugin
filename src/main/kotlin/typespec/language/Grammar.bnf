@@ -109,9 +109,12 @@ private UsingStatement ::=
     {   pin=1    }
 
 private ModelStatement ::=
-        DecoratorList? MODEL IdentifierVariable TemplateParameters? ModelHeritage? LBRACE ModelBody? RBRACE
-    |   DecoratorList? MODEL IdentifierVariable TemplateParameters? IsModelHeritage SEMICOLON
-    {   pin(".*")=2    }
+        DecoratorList? MODEL IdentifierVariable TemplateParameters? ModelStatementSuffix
+    {   pin=2   }
+
+private ModelStatementSuffix ::=
+        ModelHeritage? LBRACE ModelBody? RBRACE
+    |   IsModelHeritage SEMICOLON
 
 private IsModelHeritage ::=
         IS Expression

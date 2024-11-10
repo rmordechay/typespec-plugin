@@ -1,29 +1,3 @@
-import "./common.tsp";
-
-namespace MyOrg.Accounts;
-
-using MyOrg.Types;
-
-model Account {
-  id: id;
-  firstName: string;
-  lastName: string;
-  createdAt: utcDateTime;
-
-  // Use imported type by name only when using `using`
-  ssn: ssn;
-
-  // Or use the fully qualified name
-  email: MyOrg.Types.email;
-
-  balance: Amount;
-}
-
-model Amount {
-  value: decimal128;
-  currency: Currency;
-}
-
 // Create your own error types by extending the Error type
 model AccountError is Error<"duplicate-account" | "invalid-account">;
 
@@ -496,3 +470,100 @@ model Generated {
 }
 
 model ProjectedModel is updateProjection<BaseModel>;
+
+op read(
+  @query csv?: string[], // equivalent to collectionFormat: csv
+  @query(#{ explode: false }) csvExplicit?: string[], // equivalent to collectionFormat: csv
+  @query(#{ explode: true }) multi?: string[], // equivalent to collectionFormat: csv
+): Widget | Error;
+
+/**
+ * Get health info for the service.
+ * The health includes the current version of the service.
+ * The health value may be one of:
+ * - `ok`: the service is operating normally
+ * - `degraded`: the service is operating in a degraded state
+ * - `down`: the service is not operating
+ */
+@tag("Health")
+@route("/health")
+@get
+op health(): string;
+
+@doc("""
+  Get status info for the service.
+  The status includes the current version of the service.
+  The status value may be one of:
+  - `ok`: the service is operating normally
+  - `degraded`: the service is operating in a degraded state
+  - `down`: the service is not operating
+  """)
+@tag("Status")
+@route("/status")
+@get
+op status(): string;
+
+@tag("Gadgets")
+@route("/gadgets")
+namespace Gadgets {
+  op create(@body gadget: Gadget): Gadget | Error; // uses "post" method
+  op read(@path id: string): Gadget | Error; // uses "get" method
+}
+
+@route("/widgets")
+namespace Widgets {
+  // widgets operations
+
+  @route("/{id}/parts")
+  namespace Parts {
+    op list(@path id: string): Part[] | Error; // uses path "/widgets/{id}/parts"
+  }
+}
+
+@route("/pets")
+namespace Pets {
+  op create(@body pet: Pet): Pet; // uses path "/pets"
+  op read(@path petId: int32): Pet; // uses path "/pets/{petId}"
+}
+
+@discriminator("kind")
+model Pet {
+  name: string;
+  weight?: float32;
+}
+model Cat extends Pet {
+  kind: "cat";
+  meow?: int32;
+}
+model Dog extends Pet {
+  kind: "dog";
+  bark?: string;
+}
+
+model PetId {
+  @path petId: int32;
+}
+
+namespace Pets {
+  op read(...PetId): Pet | Error;
+}
+
+/** The Contoso Widget Service provides access to the Contoso Widget API. */
+@tagMetadata("my-tag", #{
+  description: "My tag",
+  `x-custom`: "custom value",
+})
+@service({
+  title: "Widget Service",
+})
+@info({
+  contact: {
+    name: "API Support",
+    email: "contact@contoso.com",
+  },
+  license: {
+    name: "Apache 2.0",
+    url: "https://www.apache.org/licenses/LICENSE-2.0.html",
+  },
+})
+namespace DemoService;
