@@ -35,6 +35,7 @@ COLON=":"
 COMMA=","
 SEMICOLON=";"
 DOT="."
+MINUS="-"
 LT="<"
 GT=">"
 LPAREN="("
@@ -71,8 +72,8 @@ BOOL_LITERAL=false|true
 STRING_LITERAL1='.*'
 STRING_LITERAL2=`.*`
 STRING_LITERAL3=\".*\"
-STRING_LITERAL4='''[^']*'''
-STRING_LITERAL5=\"\"\"[^\"]*\"\"\"
+STRING_LITERAL4='''([^']|'{0,2}[^'])*'''
+STRING_LITERAL5=\"\"\"([^\"]|\"{0,2}[^\"])*\"\"\"
 INT_LITERAL=\d+
 FLOAT_LITERAL={INT_LITERAL}"."{INT_LITERAL}
 
@@ -91,6 +92,7 @@ FLOAT_LITERAL={INT_LITERAL}"."{INT_LITERAL}
   {COMMA}                { return COMMA;}
   {SEMICOLON}            { return SEMICOLON;}
   {DOT}                  { return DOT;}
+  {MINUS}                { return MINUS;}
   {LT}                   { return LT;}
   {GT}                   { return GT;}
   {LPAREN}               { return LPAREN;}

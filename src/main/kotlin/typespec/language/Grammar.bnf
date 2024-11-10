@@ -24,6 +24,7 @@
         COMMA=','
         SEMICOLON=';'
         DOT='.'
+        MINUS='-'
         LT='<'
         GT='>'
         LPAREN='('
@@ -58,10 +59,10 @@
         STRING_LITERAL1="regexp:'.*'"
         STRING_LITERAL2="regexp:`.*`"
         STRING_LITERAL3='regexp:\".*\"'
-        STRING_LITERAL4="regexp:'''[^']*'''"
-        STRING_LITERAL5="regexp:\"\"\"[^\"]*\"\"\""
-        INT_LITERAL='regexp:-?\d+'
-        FLOAT_LITERAL='regexp:-?\d+\.\d+'
+        STRING_LITERAL4="regexp:'''([^']|'{0,2}[^'])*'''"
+        STRING_LITERAL5="regexp:\"\"\"([^\"]|\"{0,2}[^\"])*\"\"\""
+        INT_LITERAL='regexp:\d+'
+        FLOAT_LITERAL='regexp:\d+\.\d+'
         IDENTIFIER="regexp:[a-zA-Z_$]+\w*"
     ]
 }
@@ -223,13 +224,13 @@ private OperationSignature ::=
 private OperationStatement ::=
         DecoratorList? OP IdentifierVariable TemplateParameters? OperationSignature SEMICOLON
 
-private Expression ::=
+Expression ::=
         UnionExpressionOrHigher
 
-private UnionExpressionOrHigher ::=
+UnionExpressionOrHigher ::=
         PIPE? IntersectionExpressionOrHigher (PIPE IntersectionExpressionOrHigher)*
 
-private IntersectionExpressionOrHigher ::=
+IntersectionExpressionOrHigher ::=
         AMPERSAND? ArrayExpressionOrHigher (AMPERSAND ArrayExpressionOrHigher)*
 
 private TypeOfExpression ::=
@@ -341,8 +342,8 @@ private StringLiteral ::=
     |   STRING_LITERAL5
 
 private NumericLiteral ::=
-        INT_LITERAL
-    |   FLOAT_LITERAL
+        MINUS? INT_LITERAL
+    |   MINUS? FLOAT_LITERAL
 
 private BooleanLiteral ::=
         BOOL_LITERAL

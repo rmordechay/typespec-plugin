@@ -12,11 +12,12 @@ import typespec.psi.interfaces.TsIdentifierVariable
 
 class TsHighlightAnnotator : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
-        if (element.parent.parent is TsDecorator) {
+        if (element !is TsIdentifierVariable) return
+        if (element.parent is TsDecorator) {
             holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
                 .textAttributes(DECORATOR_TEXT_ATTR)
                 .create()
-        } else if (element is TsIdentifierVariable && element.text in BUILTIN_TYPE_SET) {
+        } else if (element.text in BUILTIN_TYPE_SET) {
             holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
                 .textAttributes(BUILTIN_TYPE_TEXT_ATTR)
                 .create()
