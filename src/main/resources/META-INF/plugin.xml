@@ -1,4 +1,4 @@
-<idea-plugin>
+<idea-plugin require-restart="true">
     <id>TypeSpec</id>
     <name>TypeSpec</name>
     <vendor>Roi Mordechay</vendor>

@@ -31,7 +31,7 @@ class TsLanguage : Language("TypeSpec") {
 }
 
 object TsIcon {
-    val FILE: Icon = getIcon("icons/pluginIcon.svg", TsLanguage::class.java)
+    val FILE: Icon = getIcon("icons/fileIcon.svg", TsLanguage::class.java)
 }
 
 class TsFileType : LanguageFileType(TsLanguage.INSTANCE) {
@@ -91,7 +91,7 @@ class TsParser : ParserDefinition {
     }
 
     override fun createElement(node: ASTNode?): PsiElement {
-        return TsTypes.Factory.createElement(node);
+        return TsTypes.Factory.createElement(node)
     }
 
     override fun createFile(viewProvider: FileViewProvider): PsiFile {
