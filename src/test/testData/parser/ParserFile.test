@@ -567,3 +567,99 @@ namespace Pets {
   },
 })
 namespace DemoService;
+
+model Pet {
+  name: string;
+  age: int32;
+}
+
+model HasHome {
+  address: string;
+}
+
+model Cat is Pet {
+  meow: boolean;
+  ...HasHome;
+  furColor: string;
+}
+
+model Dog {
+  ...Animal;
+  ...Pet;
+}
+
+model Page<Item> {
+  size: number;
+  item: Item[];
+}
+
+model DogPage {
+  ...Page<Dog>;
+}
+
+op feedDog(...CommonParams, name: string): void;
+
+model DogNotFound {
+  error: "Not Found";
+}
+
+op getDog(name: string): Dog | DogNotFound;
+
+interface A {
+  a(): string;
+}
+
+interface B {
+  b(): string;
+}
+
+model Page<Item> {
+  size: number;
+  item: Item[];
+}
+
+model DogPage {
+  ...Page<Dog>;
+}
+
+enum Direction {
+  North,
+  East,
+  South,
+  West,
+}
+
+alias Dog = {
+  ...Animal;
+  ...Pet;
+};
+alias Dog = Animal & Pet;
+
+
+alias Str = "Hello World!";
+
+
+alias Str = """
+  This is a multi line string
+   - opt 1
+   - opt 2
+  """;
+
+alias hello = "bonjour";
+alias Single = "${hello} world!";
+
+alias Multi = """
+  ${hello}
+  world!
+  """;
+
+alias Kilo = 1000;
+alias PI = 3.14;
+
+alias InTypeSpec = true;
+alias Cheater = false;
+
+model Post {
+  #suppress "Use newAuthor property instead"
+  author: LegacyUser; // no need to also suppress the deprecated diagnostic about usage of LegacyUser
+}

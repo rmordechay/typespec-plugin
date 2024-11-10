@@ -8,7 +8,7 @@
         <fileType name="TypeSpec" implementationClass="typespec.language.TsFileType" fieldName="INSTANCE" language="TypeSpec" extensions="tsp"/>
         <lang.parserDefinition language="TypeSpec" implementationClass="typespec.language.TsParser"/>
         <lang.syntaxHighlighterFactory language="TypeSpec" implementationClass="typespec.highlighting.TsSyntaxHighlighterFactory"/>
-        <additionalTextAttributes scheme="Default" file="colors/TsColorsConfiguration.xml"/>
+        <additionalTextAttributes scheme="Darcula" file="colors/TsColorsConfiguration.xml"/>
         <annotator language="TypeSpec" implementationClass="typespec.highlighting.TsHighlightAnnotator"/>
         <colorSettingsPage implementation="typespec.highlighting.TsColorSettings"/>
     </extensions>

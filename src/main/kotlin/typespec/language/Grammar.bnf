@@ -75,7 +75,6 @@ private TypeSpecScript ::=
 private TypeSpecScriptItem ::=
         BlocklessNamespaceStatement
     |   ImportStatement
-    |   SuppressStatement
     |   Statement
 
 private SuppressStatement ::= HASH SUPPRESS StringLiteral StringLiteral?
@@ -102,6 +101,7 @@ private Statement ::=
     |   AugmentDecoratorStatement
     |   DecoratorDeclarationStatement
     |   FunctionDeclarationStatement
+    |   SuppressStatement
     |   SEMICOLON
 
 private UsingStatement ::=
@@ -307,7 +307,7 @@ DecoratorList ::=
 
 Decorator ::=
         AT IdentifierOrMemberExpression DecoratorArguments?
-    {   pin=1    }
+    |   SuppressStatement
 
 private DecoratorArguments ::=
         LPAREN ExpressionList? RPAREN
