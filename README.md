@@ -1,0 +1,1 @@
+# IDEA Plugin Support for TypeSpec 

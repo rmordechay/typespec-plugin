@@ -32,6 +32,7 @@ tasks {
         sinceBuild.set("222")
         untilBuild.set("242.*")
         changeNotes = changelog.get(project.version.toString()).toHTML()
+        pluginDescription = file("plugin-description.html").readText()
     }
 
     signPlugin {
