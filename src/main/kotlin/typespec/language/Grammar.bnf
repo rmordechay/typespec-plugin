@@ -200,7 +200,6 @@ private TemplateParameterConstraint ::=
         EXTENDS MixedParameterConstraint
 
 private MixedParameterConstraint ::=
-//  UnionExpressionOrHigher[+InParameter]
         UnionExpressionOrHigher
     |   valueof UnionExpressionOrHigher
 
@@ -228,11 +227,10 @@ private Expression ::=
         UnionExpressionOrHigher
 
 private UnionExpressionOrHigher ::=
-        IntersectionExpressionOrHigher (PIPE IntersectionExpressionOrHigher)*
-
+        PIPE? IntersectionExpressionOrHigher (PIPE IntersectionExpressionOrHigher)*
 
 private IntersectionExpressionOrHigher ::=
-        ArrayExpressionOrHigher (AMPERSEND ArrayExpressionOrHigher)*
+        AMPERSAND? ArrayExpressionOrHigher (AMPERSAND ArrayExpressionOrHigher)*
 
 private TypeOfExpression ::=
         TYPEOF Literal

@@ -1,0 +1,498 @@
+import "./common.tsp";
+
+namespace MyOrg.Accounts;
+
+using MyOrg.Types;
+
+model Account {
+  id: id;
+  firstName: string;
+  lastName: string;
+  createdAt: utcDateTime;
+
+  // Use imported type by name only when using `using`
+  ssn: ssn;
+
+  // Or use the fully qualified name
+  email: MyOrg.Types.email;
+
+  balance: Amount;
+}
+
+model Amount {
+  value: decimal128;
+  currency: Currency;
+}
+
+// Create your own error types by extending the Error type
+model AccountError is Error<"duplicate-account" | "invalid-account">;
+
+op createAccount(account: Account): Account;
+
+op charge(accountId: id, amount: Amount): void | AccountError;
+
+import "@typespec/http";
+
+using TypeSpec.Http;
+
+model Pet {
+  name: string;
+  age: int32;
+}
+
+model Store {
+  name: string;
+  address: Address;
+}
+
+model Address {
+  street: string;
+  city: string;
+}
+
+import "@typespec/http";
+
+using TypeSpec.Http;
+
+@service({
+  title: "Pet Store",
+})
+@server("https://example.com", "Single server endpoint")
+namespace PetStore;
+
+model Pet {
+  id: int32;
+
+  // highlight-next-line
+  @minLength(1)
+  name: string;
+
+  // highlight-next-line
+  @minValue(0)
+  // highlight-next-line
+  @maxValue(100)
+  age: int32;
+
+  kind: petType;
+}
+
+enum petType {
+  dog: "dog",
+  cat: "cat",
+  fish: "fish",
+  bird: "bird",
+  reptile: "reptile",
+}
+
+import "@typespec/http";
+
+using TypeSpec.Http;
+
+@service({
+  title: "Pet Store",
+})
+@server("https://example.com", "Single server endpoint")
+namespace PetStore;
+
+model Pet {
+  id: int32;
+
+  @minLength(1)
+  name: string;
+
+  @minValue(0)
+  @maxValue(100)
+  age: int32;
+
+  kind: petType;
+}
+
+enum petType {
+  dog: "dog",
+  cat: "cat",
+  fish: "fish",
+  bird: "bird",
+  reptile: "reptile",
+}
+
+// highlight-start
+@route("/pets")
+namespace Pets {
+  @get
+  op listPets(): {
+    @statusCode statusCode: 200;
+    @body pets: Pet[];
+  };
+
+  @get
+  op getPet(@path petId: int32): {
+    @statusCode statusCode: 200;
+    @body pet: Pet;
+  };
+
+  @post
+  op createPet(@body pet: Pet): {
+    @statusCode statusCode: 201;
+    @body newPet: Pet;
+  };
+
+  @put
+  op updatePet(@path petId: int32, @body pet: Pet): {
+    @statusCode statusCode: 200;
+    @body updatedPet: Pet;
+  };
+
+  @delete
+  op deletePet(@path petId: int32): {
+    @statusCode statusCode: 204;
+  };
+}
+// highlight-end
+
+import "@typespec/http";
+
+using TypeSpec.Http;
+
+@service({
+  title: "Pet Store",
+})
+@server("https://example.com", "Single server endpoint")
+namespace PetStore;
+
+model Pet {
+  id: int32;
+
+  @minLength(1)
+  name: string;
+
+  @minValue(0)
+  @maxValue(100)
+  age: int32;
+
+  kind: petType;
+}
+
+enum petType {
+  dog: "dog",
+  cat: "cat",
+  fish: "fish",
+  bird: "bird",
+  reptile: "reptile",
+}
+
+@route("/pets")
+namespace Pets {
+  @get
+  op listPets(): {
+    @statusCode statusCode: 200;
+    @body pets: Pet[];
+  };
+
+  @get
+  op getPet(@path petId: int32): {
+    @statusCode statusCode: 200;
+    @body pet: Pet;
+    // highlight-start
+  } | {
+    @statusCode statusCode: 404;
+    // highlight-end
+  };
+
+  @post
+  op createPet(@body pet: Pet): {
+    @statusCode statusCode: 201;
+    @body newPet: Pet;
+    // highlight-start
+  } | {
+    @statusCode statusCode: 202;
+    @body acceptedPet: Pet;
+    // highlight-end
+  };
+
+  @put
+  op updatePet(@path petId: int32, @body pet: Pet): {
+    @statusCode statusCode: 200;
+    @body updatedPet: Pet;
+    // highlight-start
+  } | {
+    @statusCode statusCode: 404;
+    // highlight-end
+  };
+
+  @delete
+  op deletePet(@path petId: int32): {
+    @statusCode statusCode: 204;
+  };
+}
+
+import "@typespec/http";
+
+using TypeSpec.Http;
+
+@service({
+  title: "Pet Store",
+})
+@server("https://example.com", "Single server endpoint")
+namespace PetStore;
+
+model Pet {
+  id: int32;
+
+  @minLength(1)
+  name: string;
+
+  @minValue(0)
+  @maxValue(100)
+  age: int32;
+
+  kind: petType;
+}
+
+enum petType {
+  dog: "dog",
+  cat: "cat",
+  fish: "fish",
+  bird: "bird",
+  reptile: "reptile",
+}
+
+@route("/pets")
+namespace Pets {
+  @get
+  op listPets(): {
+    @statusCode statusCode: 200;
+    @body pets: Pet[];
+  };
+
+  @get
+  op getPet(@path petId: int32): {
+    @statusCode statusCode: 200;
+    @body pet: Pet;
+  } | {
+    @statusCode statusCode: 404;
+
+    // highlight-next-line
+    @body error: NotFoundError;
+  };
+
+  @post
+  op createPet(@body pet: Pet): {
+    @statusCode statusCode: 201;
+    @body newPet: Pet;
+  } | {
+    @statusCode statusCode: 202;
+    @body acceptedPet: Pet;
+    // highlight-start
+  } | {
+    @statusCode statusCode: 400;
+    @body error: ValidationError;
+  };
+  // highlight-end
+
+  @put
+  op updatePet(@path petId: int32, @body pet: Pet):
+    | {
+        @statusCode statusCode: 200;
+        @body updatedPet: Pet;
+        // highlight-start
+      }
+    | {
+        @statusCode statusCode: 400;
+        @body error: ValidationError;
+      }
+    | {
+        @statusCode statusCode: 404;
+        @body error: NotFoundError;
+      }
+    | {
+        @statusCode statusCode: 500;
+        @body error: InternalServerError;
+        // highlight-end
+      };
+
+  @delete
+  op deletePet(@path petId: int32): {
+    @statusCode statusCode: 204;
+  };
+}
+
+// highlight-start
+@error
+model NotFoundError {
+  code: "NOT_FOUND";
+  message: string;
+}
+
+@error
+model ValidationError {
+  code: "VALIDATION_ERROR";
+  message: string;
+  details: string[];
+}
+
+@error
+model InternalServerError {
+  code: "INTERNAL_SERVER_ERROR";
+  message: string;
+}
+// highlight-end
+
+@service({
+  title: "TypeSpec Syntax Examples",
+  version: "1.0.0"
+})
+namespace TypeSpecTest;
+
+// Simple scalar types
+model BasicTypes {
+  stringProp: string;
+  numberProp: numeric;
+  integerProp: int32;
+  booleanProp: boolean;
+  dateProp: plainDate;
+  dateTimeProp: utcDateTime;
+  durationProp: duration;
+  bytesProps: bytes;
+}
+
+// Enum definitions
+@doc("Status enum example")
+enum Status {
+  @doc("Active status")
+  Active: "active",
+  Inactive: "inactive",
+  Pending: "pending",
+}
+
+// Model with inheritance
+@doc("Base model for testing inheritance")
+model BaseModel {
+  id: string;
+  name: string;
+  createdAt: utcDateTime;
+}
+
+// Extended model
+@doc("Extended model showing inheritance")
+model ExtendedModel extends BaseModel {
+  description?: string;
+  tags: Record<string>;
+  status: Status;
+}
+
+// Model with decorators
+@friendlyName("CustomizedModel")
+@doc("Model demonstrating various decorators")
+model DecoratedModel {
+  @visibility("read")
+  @maxLength(100)
+  name: string;
+
+  @minValue(0)
+  @maxValue(100)
+  score: int32;
+
+  @pattern("^[A-Za-z0-9]+$")
+  code: string;
+
+  @secret
+  apiKey: string;
+}
+
+
+// Template type
+@doc("Template type example")
+model Container<T> {
+  value: T;
+  metadata: Record<string>;
+}
+
+// Array types
+model ArrayTypes {
+  stringArray: string[];
+  numberArray: int32[];
+  modelArray: ExtendedModel[];
+  nestedArray: string[][];
+}
+
+// Spread operator usage
+model SpreadExample {
+  ...BaseModel;
+  additionalProp: string;
+}
+
+
+// Model with optional properties
+model OptionalProps {
+  required: string;
+  optional?: string;
+  optionalWithDefault?: string = "default";
+}
+
+// Using alias
+alias ResourceId = string;
+alias ResourceMap = Record<ExtendedModel>;
+
+// Model with discriminator
+@discriminator("kind")
+model Animal {
+  kind: string;
+  name: string;
+}
+
+model Dog extends Animal {
+  kind: "dog";
+  breed: string;
+}
+
+model Cat extends Animal {
+  kind: "cat";
+  lives: int32;
+}
+
+// Authentication definitions
+@useAuth(OAuth2Auth)
+op securedOperation(): void;
+
+@doc("OAuth2 authentication definition")
+model OAuth2Auth {
+  type: "oauth2";
+  flows: OAuth2Flows;
+}
+
+model OAuth2Flows {
+  implicit: OAuth2ImplicitFlow;
+}
+
+model OAuth2ImplicitFlow {
+  authorizationUrl: string;
+  scopes: Record<string>;
+}
+
+// Namespace with versioning
+@versioned(Versions)
+namespace Versioned {
+  enum Versions {
+    v1,
+    v2,
+    v3,
+  }
+
+  @doc("Version-specific model")
+  @added(Versions.v2)
+  model VersionedModel {
+    @added(Versions.v2)
+    newProp: string;
+
+    @removed(Versions.v3)
+    oldProp: string;
+  }
+}
+
+
+@autoGenerated
+model Generated {
+  id: string;
+}
+
+model ProjectedModel is updateProjection<BaseModel>;

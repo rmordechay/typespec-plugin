@@ -54,6 +54,7 @@ tasks {
     generateLexer {
         sourceFile = File("src/main/kotlin/typespec/language/Lexer.flex")
         targetOutputDir = File("src/main/gen/typespec")
+        dependsOn("generateParser")
     }
 }
 
