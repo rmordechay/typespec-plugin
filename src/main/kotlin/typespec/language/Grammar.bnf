@@ -85,9 +85,10 @@ private BlocklessNamespaceStatement ::=
 
 private ImportStatement ::=
         IMPORT StringLiteral SEMICOLON
+    {   pin=1   }
 
 private StatementList ::=
-        Statement+
+        Statement*
 
 private Statement ::=
         ModelStatement
@@ -105,10 +106,12 @@ private Statement ::=
 
 private UsingStatement ::=
         USING IdentifierOrMemberExpression SEMICOLON
+    {   pin=1    }
 
 private ModelStatement ::=
         DecoratorList? MODEL IdentifierVariable TemplateParameters? ModelHeritage? LBRACE ModelBody? RBRACE
     |   DecoratorList? MODEL IdentifierVariable TemplateParameters? IsModelHeritage SEMICOLON
+    {   pin(".*")=2    }
 
 private IsModelHeritage ::=
         IS Expression
@@ -116,6 +119,7 @@ private IsModelHeritage ::=
 private ScalarStatement ::=
         DecoratorList? SCALAR IdentifierVariable TemplateParameters? ScalarExtends? SEMICOLON
     |   DecoratorList? SCALAR IdentifierVariable TemplateParameters? ScalarExtends? LBRACE ScalarBody? RBRACE
+    {   pin(".*")=2    }
 
 private ScalarExtends ::=
         EXTENDS Expression
@@ -151,9 +155,10 @@ private ModelSpreadProperty ::=
 
 private InterfaceStatement ::=
         INTERFACE IdentifierVariable TemplateParameters? InterfaceHeritage? LBRACE InterfaceBody? RBRACE
+    {   pin=1    }
 
 private InterfaceHeritage ::=
-        EXTENDS ReferenceExpressionList;
+        EXTENDS ReferenceExpressionList
 
 private InterfaceBody ::=
         InterfaceMemberList SEMICOLON?
@@ -299,6 +304,7 @@ DecoratorList ::=
 
 Decorator ::=
         AT IdentifierOrMemberExpression DecoratorArguments?
+    {   pin=1    }
 
 private DecoratorArguments ::=
         LPAREN ExpressionList? RPAREN

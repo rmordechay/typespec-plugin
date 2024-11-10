@@ -23,8 +23,34 @@ import typespec._TsParser
 import javax.swing.Icon
 
 
-class TsLanguage : Language("TypeSpec") {
+/**
+ *
+ */
+class TsLexer : FlexAdapter(_TsLexer())
 
+/**
+ *
+ */
+class TsTokenType(debugName: String) : IElementType(debugName, TsLanguage.INSTANCE)
+
+/**
+ *
+ */
+class TsElementType(debugName: String) : IElementType(debugName, TsLanguage.INSTANCE)
+
+/**
+ *
+ */
+class TsFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, TsLanguage.INSTANCE) {
+    override fun getFileType(): FileType {
+        return TsFileType.INSTANCE
+    }
+}
+
+/**
+ *
+ */
+class TsLanguage : Language("TypeSpec") {
     companion object {
         val INSTANCE = TsLanguage()
     }
@@ -34,8 +60,10 @@ object TsIcon {
     val FILE: Icon = getIcon("icons/fileIcon.svg", TsLanguage::class.java)
 }
 
+/**
+ *
+ */
 class TsFileType : LanguageFileType(TsLanguage.INSTANCE) {
-
     override fun getName(): String {
         return "TypeSpec"
     }
@@ -57,18 +85,9 @@ class TsFileType : LanguageFileType(TsLanguage.INSTANCE) {
     }
 }
 
-class TsTokenType(debugName: String): IElementType(debugName, TsLanguage.INSTANCE)
-
-class TsElementType(debugName: String) : IElementType(debugName, TsLanguage.INSTANCE)
-
-class TsLexer : FlexAdapter(_TsLexer())
-
-class TsFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, TsLanguage.INSTANCE) {
-    override fun getFileType(): FileType {
-        return TsFileType.INSTANCE
-    }
-}
-
+/**
+ *
+ */
 class TsParser : ParserDefinition {
     override fun createLexer(project: Project?): Lexer {
         return TsLexer()
@@ -87,7 +106,7 @@ class TsParser : ParserDefinition {
     }
 
     override fun getStringLiteralElements(): TokenSet {
-        return TokenSet.create(TsTypes.STRING_LITERAL1, TsTypes.STRING_LITERAL2)
+        return STRING_LITERAL_SET
     }
 
     override fun createElement(node: ASTNode?): PsiElement {
