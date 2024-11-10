@@ -8,6 +8,9 @@ import com.intellij.openapi.options.colors.ColorSettingsPage
 import typespec.language.TsIcon
 import javax.swing.Icon
 
+/**
+ *
+ */
 private val DESCRIPTORS = arrayOf(
     AttributesDescriptor("Comment // Multi-line", TsTextAttributes.MULTILINE_COMMENT_TEXT_ATTR),
     AttributesDescriptor("Comment // One-line", TsTextAttributes.COMMENT_TEXT_ATTR),
@@ -20,6 +23,9 @@ private val DESCRIPTORS = arrayOf(
     AttributesDescriptor("Bad character", TsTextAttributes.BAD_CHARACTER_TEXT_ATTR),
 )
 
+/**
+ *
+ */
 private val ADDITIONAL_DESCRIPTORS = mutableMapOf(
     "v" to TsTextAttributes.VARIABLE_TEXT_ATTR,
     "d" to TsTextAttributes.DECORATOR_TEXT_ATTR,
@@ -97,6 +103,7 @@ class TsColorSettings : ColorSettingsPage {
             op addItemToWishlist(@<d>path</d> product_id: <b>string</b>): {
                 @<d>statusCode</d> statusCode: 201;
             };
+            ^
         """.trimIndent()
     }
     /**

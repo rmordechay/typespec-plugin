@@ -54,6 +54,7 @@
         DEC="dec"
         FN="fn"
         ALIAS="alias"
+        UNION="union"
         SUPPRESS="suppress"
 
         STRING_LITERAL1="regexp:'.*'"
@@ -101,6 +102,7 @@ private Statement ::=
     |   AugmentDecoratorStatement
     |   DecoratorDeclarationStatement
     |   FunctionDeclarationStatement
+    |   UnionStatement
     |   SuppressStatement
     |   SEMICOLON
 
@@ -171,6 +173,20 @@ private InterfaceMemberList ::=
 
 private InterfaceMember ::=
         OP? IdentifierVariable OperationSignature
+
+private UnionStatement ::=
+        DecoratorList? UNION IdentifierVariable TemplateParameters? LBRACE UnionBody? RBRACE
+
+private UnionBody ::=
+        UnionVariantList (SEMICOLON|COMMA)?
+
+private UnionVariantList ::=
+        UnionVariant ((SEMICOLON|COMMA)? UnionVariant)*
+
+private UnionVariant ::=
+        DecoratorList? IdentifierVariable COLON Expression
+    |   DecoratorList? StringLiteral COLON Expression
+    |   DecoratorList? Expression
 
 private EnumStatement ::=
         DecoratorList? ENUM IdentifierVariable LBRACE EnumBody? RBRACE

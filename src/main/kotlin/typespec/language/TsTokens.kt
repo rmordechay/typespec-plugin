@@ -20,6 +20,7 @@ val KEYWORDS_TOKENS = TokenSet.create(
     DEC,
     FN,
     ALIAS,
+    UNION,
     SUPPRESS
 )
 

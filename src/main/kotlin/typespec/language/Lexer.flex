@@ -65,6 +65,7 @@ EXTERN="extern"
 DEC="dec"
 FN="fn"
 ALIAS="alias"
+UNION="union"
 SUPPRESS="suppress"
 
 IDENTIFIER=[a-zA-Z_$]+\w*
@@ -122,6 +123,7 @@ FLOAT_LITERAL={INT_LITERAL}"."{INT_LITERAL}
   {DEC}                  { return DEC; }
   {FN}                   { return FN; }
   {ALIAS}                { return ALIAS; }
+  {UNION}                { return UNION; }
   {SUPPRESS}             { return SUPPRESS; }
 
   {INT_LITERAL}          { return INT_LITERAL; }

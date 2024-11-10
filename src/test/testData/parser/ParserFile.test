@@ -663,3 +663,15 @@ model Post {
   #suppress "Use newAuthor property instead"
   author: LegacyUser; // no need to also suppress the deprecated diagnostic about usage of LegacyUser
 }
+
+union Breed {
+  beagle: Beagle,
+  shepherd: GermanShepherd,
+  retriever: GoldenRetriever,
+}
+
+union Breed {
+  beagle: Beagle;
+  shepherd: GermanShepherd,
+  retriever: GoldenRetriever,
+}

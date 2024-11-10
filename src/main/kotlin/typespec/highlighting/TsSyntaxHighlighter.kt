@@ -26,6 +26,9 @@ import typespec.language.NUMBER_SET
 import typespec.language.STRING_LITERAL_SET
 import typespec.language.TsLexer
 
+/**
+ *
+ */
 class TsSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
     override fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?): SyntaxHighlighter {
         return TsSyntaxHighlighter()
@@ -33,6 +36,9 @@ class TsSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
 
 }
 
+/**
+ *
+ */
 class TsSyntaxHighlighter : SyntaxHighlighterBase() {
     override fun getHighlightingLexer(): Lexer {
         return TsLexer()
@@ -42,9 +48,6 @@ class TsSyntaxHighlighter : SyntaxHighlighterBase() {
         return pack(mapTokenToTextAttr(tokenType))
     }
 
-    /**
-     *
-     */
     private fun mapTokenToTextAttr(tokenType: IElementType): TextAttributesKey? {
         return when (tokenType) {
             TsTypes.COMMENT -> COMMENT_TEXT_ATTR
