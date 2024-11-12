@@ -11,5 +11,7 @@
         <additionalTextAttributes scheme="Darcula" file="colors/TsColorsConfiguration.xml"/>
         <annotator language="TypeSpec" implementationClass="typespec.highlighting.TsHighlightAnnotator"/>
         <colorSettingsPage implementation="typespec.highlighting.TsColorSettings"/>
+        <lang.braceMatcher language="TypeSpec" implementationClass="typespec.editor.TsBraceMatcher"/>
+        <lang.commenter language="TypeSpec" implementationClass="typespec.editor.TsCommenter"/>
     </extensions>
 </idea-plugin>
