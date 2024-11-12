@@ -85,12 +85,11 @@ private BlocklessNamespaceStatement ::=
 
 private ImportStatement ::=
         IMPORT StringLiteral SEMICOLON
-    {   pin=1   }
 
-private StatementList ::=
+StatementList ::=
         Statement*
 
-private Statement ::=
+Statement ::=
         ModelStatement
     |   ScalarStatement
     |   InterfaceStatement
@@ -108,11 +107,9 @@ private Statement ::=
 
 private UsingStatement ::=
         USING IdentifierOrMemberExpression SEMICOLON
-    {   pin=1    }
 
 private ModelStatement ::=
         DecoratorList? MODEL IdentifierVariable TemplateParameters? ModelStatementSuffix
-    {   pin=2   }
 
 private ModelStatementSuffix ::=
         ModelHeritage? LBRACE ModelBody? RBRACE
@@ -124,7 +121,6 @@ private IsModelHeritage ::=
 private ScalarStatement ::=
         DecoratorList? SCALAR IdentifierVariable TemplateParameters? ScalarExtends? SEMICOLON
     |   DecoratorList? SCALAR IdentifierVariable TemplateParameters? ScalarExtends? LBRACE ScalarBody? RBRACE
-    {   pin(".*")=2    }
 
 private ScalarExtends ::=
         EXTENDS Expression
@@ -149,18 +145,17 @@ private ModelBody ::=
         ModelPropertyList (COMMA|SEMICOLON)?
 
 private ModelPropertyList ::=
-        ModelProperty ((COMMA|SEMICOLON) ModelProperty)*
+        ModelProperty*
 
 private ModelProperty ::=
-        ModelSpreadProperty
-    |   DecoratorList? (IdentifierVariable|StringLiteral) QUESTION? COLON Expression (EQUALS Expression)?
+        ModelSpreadProperty (COMMA|SEMICOLON)?
+    |   DecoratorList? (IdentifierVariable|StringLiteral) QUESTION? COLON Expression (EQUALS Expression)? (COMMA|SEMICOLON)?
 
 private ModelSpreadProperty ::=
         ELLIPSIS ReferenceExpression
 
 private InterfaceStatement ::=
-        INTERFACE IdentifierVariable TemplateParameters? InterfaceHeritage? LBRACE InterfaceBody? RBRACE
-    {   pin=1    }
+        DecoratorList? INTERFACE IdentifierVariable TemplateParameters? InterfaceHeritage? LBRACE InterfaceBody? RBRACE
 
 private InterfaceHeritage ::=
         EXTENDS ReferenceExpressionList
