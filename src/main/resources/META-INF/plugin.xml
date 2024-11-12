@@ -13,5 +13,6 @@
         <colorSettingsPage implementation="typespec.highlighting.TsColorSettings"/>
         <lang.braceMatcher language="TypeSpec" implementationClass="typespec.editor.TsBraceMatcher"/>
         <lang.commenter language="TypeSpec" implementationClass="typespec.editor.TsCommenter"/>
+        <typedHandler implementation="typespec.editor.TsTypedHandler"/>
     </extensions>
 </idea-plugin>
