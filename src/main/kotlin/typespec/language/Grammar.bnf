@@ -126,7 +126,7 @@ ModelStatement ::=
 
 private ModelStatementSuffix ::=
         ModelHeritage? LBRACE ModelBody? RBRACE
-    |   IsModelHeritage SEMICOLON
+    |   IsModelHeritage SEMICOLON?
 
 private IsModelHeritage ::=
         IS Expression
@@ -160,12 +160,12 @@ ModelBody ::=
 private ModelPropertyList ::=
         ModelProperty*
 
-private rec ::= !((DecoratorList? IdentifierVariable|StringLiteral) QUESTION? COLON|COMMA|SEMICOLON|RBRACE|RPAREN)
+private rec ::= !(DecoratorList? (IdentifierVariable|StringLiteral)|COMMA|SEMICOLON|RBRACE|RPAREN|ELLIPSIS)
 
 private ModelProperty ::=
         ModelSpreadProperty (COMMA|SEMICOLON)?
     |   DecoratorList? (IdentifierVariable|StringLiteral) QUESTION? COLON Expression (EQUALS Expression)? (COMMA|SEMICOLON)?
-    {   pin(".*")=4 recoverWhile="rec" }
+    {   pin(".*")=2 recoverWhile="rec" }
 
 private ModelSpreadProperty ::=
         ELLIPSIS ReferenceExpression
