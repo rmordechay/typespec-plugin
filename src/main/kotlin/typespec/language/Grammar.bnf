@@ -122,6 +122,7 @@ private UsingStatement ::=
 
 ModelStatement ::=
         DecoratorList? MODEL IdentifierVariable TemplateParameters? ModelStatementSuffix
+    {   pin=2   }
 
 private ModelStatementSuffix ::=
         ModelHeritage? LBRACE ModelBody? RBRACE
@@ -159,9 +160,12 @@ ModelBody ::=
 private ModelPropertyList ::=
         ModelProperty*
 
+private rec ::= !((DecoratorList? IdentifierVariable|StringLiteral) QUESTION? COLON|COMMA|SEMICOLON|RBRACE|RPAREN)
+
 private ModelProperty ::=
         ModelSpreadProperty (COMMA|SEMICOLON)?
     |   DecoratorList? (IdentifierVariable|StringLiteral) QUESTION? COLON Expression (EQUALS Expression)? (COMMA|SEMICOLON)?
+    {   pin(".*")=4 recoverWhile="rec" }
 
 private ModelSpreadProperty ::=
         ELLIPSIS ReferenceExpression
@@ -243,7 +247,7 @@ NamespaceStatement ::=
         DecoratorList? NAMESPACE IdentifierOrMemberExpression LBRACE StatementList? RBRACE
 
 private OperationSignatureDeclaration ::=
-        LPAREN (ModelPropertyList (COMMA|SEMICOLON)?)?  RPAREN COLON Expression
+        LPAREN (ModelPropertyList (COMMA|SEMICOLON)?)? RPAREN COLON Expression
 
 private OperationSignatureReference ::=
         IS ReferenceExpression
@@ -254,6 +258,7 @@ private OperationSignature ::=
 
 OperationStatement ::=
         DecoratorList? OP IdentifierVariable TemplateParameters? OperationSignature SEMICOLON
+    {   pin=2   }
 
 Expression ::=
         UnionExpressionOrHigher

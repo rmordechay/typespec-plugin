@@ -27,7 +27,6 @@ tasks {
         kotlinOptions.jvmTarget = "17"
     }
 
-
     patchPluginXml {
         sinceBuild.set("222")
         untilBuild.set("242.*")
@@ -53,9 +52,9 @@ tasks {
     }
 
     generateLexer {
+        dependsOn("generateParser")
         sourceFile = File("src/main/kotlin/typespec/language/Lexer.flex")
         targetOutputDir = File("src/main/gen/typespec")
-        dependsOn("generateParser")
     }
 }
 
@@ -67,5 +66,12 @@ tasks.register("generateGrammarClean") {
         println("Deleting directory: ${dirToDelete.path}")
         dirToDelete.deleteRecursively()
     }
-    finalizedBy("generateParser", "generateLexer")
+    finalizedBy("generateLexer")
+}
+
+tasks.register("generateAndRun") {
+    tasks.findByName("runIde")?.dependsOn("generateGrammarClean")
+    tasks.findByName("compileKotlin")?.mustRunAfter("generateParser")
+    tasks.findByName("compileKotlin")?.mustRunAfter("generateLexer")
+    dependsOn("generateGrammarClean", "runIde")
 }
