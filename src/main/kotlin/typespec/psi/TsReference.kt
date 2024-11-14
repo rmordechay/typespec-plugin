@@ -12,22 +12,26 @@ class TsReference(element: TsVariable, textRange: TextRange) : PsiReferenceBase<
 
     override fun resolve(): PsiElement? {
         val baseStmt = getParentOfType(element, TsStatement::class.java)
-        var prevStmt : TsStatement?
-        var nextStmt : TsStatement?
+        var prevStmt = getPrevSiblingOfType(baseStmt, TsStatement::class.java)
+        var nextStmt = getNextSiblingOfType(baseStmt, TsStatement::class.java)
         while (true) {
-            nextStmt = getNextSiblingOfType(baseStmt, TsStatement::class.java)
-            var childStmt = nextStmt?.firstChild
+            var childStmt = prevStmt?.firstChild
             if (childStmt is TsNamedElement && childStmt.name == element.name) {
                 return childStmt
             }
-            prevStmt = getPrevSiblingOfType(baseStmt, TsStatement::class.java)
-            childStmt = prevStmt?.firstChild
+            childStmt = nextStmt?.firstChild
             if (childStmt is TsNamedElement && childStmt.name == element.name) {
                 return childStmt
             }
+            prevStmt = getPrevSiblingOfType(prevStmt, TsStatement::class.java)
+            nextStmt = getNextSiblingOfType(nextStmt, TsStatement::class.java)
             if (nextStmt == null && prevStmt == null) break
         }
         return null
+    }
+
+    override fun getRangeInElement(): TextRange {
+        return super.getRangeInElement()
     }
 }
 

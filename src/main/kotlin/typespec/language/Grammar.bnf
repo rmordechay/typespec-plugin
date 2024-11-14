@@ -83,7 +83,7 @@ private TypeSpecScriptItem ::=
 
 private SuppressStatement ::= HASH SUPPRESS StringLiteral StringLiteral?
 
-private BlocklessNamespaceStatement ::=
+BlocklessNamespaceStatement ::=
         DecoratorList? NAMESPACE IdentifierOrMemberExpression SEMICOLON
 
 private ImportStatement ::=
