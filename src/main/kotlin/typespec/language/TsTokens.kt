@@ -67,3 +67,8 @@ val STRING_LITERAL_SET = TokenSet.create(
     STRING_LITERAL4,
     STRING_LITERAL5,
 )
+
+val COMMENTS_SET = TokenSet.create(
+    COMMENT,
+    MULTILINE_COMMENT
+)

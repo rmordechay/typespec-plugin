@@ -15,5 +15,6 @@
         <lang.commenter language="TypeSpec" implementationClass="typespec.editor.TsCommenter"/>
         <typedHandler implementation="typespec.editor.TsTypedHandler"/>
         <psi.referenceContributor language="TypeSpec" implementation="typespec.psi.TsReferenceContributor"/>
+        <lang.findUsagesProvider language="TypeSpec" implementationClass="typespec.psi.TsFindUsage"/>
     </extensions>
 </idea-plugin>

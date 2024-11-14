@@ -38,22 +38,4 @@ class ReferenceTest : BasePlatformTestCase() {
         val resolve = reference?.resolve()
         assertInstanceOf(resolve, TsModelStatement::class.java)
     }
-
-    fun testInterfaceReference() {
-        val reference = myFixture.getReferenceAtCaretPosition("interface.tsp")
-        val resolve = reference?.resolve()
-        assertInstanceOf(resolve, TsInterfaceStatement::class.java)
-    }
-
-    fun testNamespaceReference() {
-        val reference = myFixture.getReferenceAtCaretPosition("namespace.tsp")
-        val resolve = reference?.resolve()
-        assertInstanceOf(resolve, TsNamespaceStatement::class.java)
-    }
-
-    fun testOpReference() {
-        val reference = myFixture.getReferenceAtCaretPosition("op.tsp")
-        val resolve = reference?.resolve()
-        assertInstanceOf(resolve, TsOperationStatement::class.java)
-    }
 }

@@ -11,8 +11,8 @@
     elementTypeClass="typespec.language.TsElementType"
     tokenTypeClass="typespec.language.TsTokenType"
 
-    implements("AliasStatement|ModelStatement|ScalarStatement|InterfaceStatement|NamespaceStatement|OperationStatement|EnumStatement")="typespec.psi.TsNamedElement"
-    mixin("AliasStatement|ModelStatement|ScalarStatement|InterfaceStatement|NamespaceStatement|OperationStatement|EnumStatement")="typespec.psi.TsNamedElementImpl"
+    implements("AliasStatement|ModelStatement|ScalarStatement|EnumStatement")="typespec.psi.TsNamedElement"
+    mixin("AliasStatement|ModelStatement|ScalarStatement|EnumStatement")="typespec.psi.TsNamedElementImpl"
 
     tokens=[
         WHITE_SPACE='regexp:[ \n\r\t\f]+'
@@ -59,6 +59,7 @@
         ALIAS="alias"
         UNION="union"
         SUPPRESS="suppress"
+        DEPRECATED="deprecated"
 
         STRING_LITERAL1="regexp:'.*'"
         STRING_LITERAL2="regexp:`.*`"
@@ -81,7 +82,15 @@ private TypeSpecScriptItem ::=
     |   ImportStatement
     |   Statement
 
-private SuppressStatement ::= HASH SUPPRESS StringLiteral StringLiteral?
+private Directive ::=
+        SuppressStatement
+    |   DeprecatedStatement
+
+private SuppressStatement ::=
+        HASH SUPPRESS StringLiteral StringLiteral?
+
+private DeprecatedStatement ::=
+        HASH DEPRECATED StringLiteral StringLiteral?
 
 BlocklessNamespaceStatement ::=
         DecoratorList? NAMESPACE IdentifierOrMemberExpression SEMICOLON
@@ -105,7 +114,7 @@ Statement ::=
     |   DecoratorDeclarationStatement
     |   FunctionDeclarationStatement
     |   UnionStatement
-    |   SuppressStatement
+    |   Directive
     |   SEMICOLON
 
 private UsingStatement ::=
@@ -170,7 +179,7 @@ private InterfaceMemberList ::=
         InterfaceMember (SEMICOLON InterfaceMember)*
 
 private InterfaceMember ::=
-        OP? IdentifierVariable OperationSignature
+        DecoratorList? OP? IdentifierVariable OperationSignature
 
 private UnionStatement ::=
         DecoratorList? UNION IdentifierVariable TemplateParameters? LBRACE UnionBody? RBRACE
@@ -322,7 +331,7 @@ DecoratorList ::=
 
 Decorator ::=
         AT IdentifierOrMemberExpression DecoratorArguments?
-    |   SuppressStatement
+    |   Directive
 
 private DecoratorArguments ::=
         LPAREN ExpressionList? RPAREN

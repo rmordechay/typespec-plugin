@@ -67,6 +67,7 @@ FN="fn"
 ALIAS="alias"
 UNION="union"
 SUPPRESS="suppress"
+DEPRECATED="deprecated"
 
 IDENTIFIER=[a-zA-Z_$]+\w*
 BOOL_LITERAL=false|true
@@ -125,6 +126,7 @@ FLOAT_LITERAL={INT_LITERAL}"."{INT_LITERAL}
   {ALIAS}                { return ALIAS; }
   {UNION}                { return UNION; }
   {SUPPRESS}             { return SUPPRESS; }
+  {DEPRECATED}           { return DEPRECATED; }
 
   {INT_LITERAL}          { return INT_LITERAL; }
   {FLOAT_LITERAL}        { return FLOAT_LITERAL; }
