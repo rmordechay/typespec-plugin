@@ -7,6 +7,7 @@
 - Commenter
 - Brace Matcher
 - Basic Parser recovery
+- Add new file
 
 ## 1.0.0
 - First Release

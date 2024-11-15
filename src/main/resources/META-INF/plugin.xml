@@ -4,6 +4,7 @@
     <vendor>Roi Mordechay</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="TypeSpec" implementationClass="typespec.language.TsFileType" fieldName="INSTANCE" language="TypeSpec" extensions="tsp"/>
         <lang.parserDefinition language="TypeSpec" implementationClass="typespec.language.TsParser"/>
@@ -18,4 +19,10 @@
         <lang.findUsagesProvider language="TypeSpec" implementationClass="typespec.psi.TsFindUsage"/>
         <completion.contributor language="TypeSpec" implementationClass="typespec.completion.TsCompletionContributor"/>
     </extensions>
+
+    <actions>
+        <action id="typespec.editor.TsNewFile" class="typespec.editor.TsNewFile" text="TypeSpec File">
+            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewDir"/>
+        </action>
+    </actions>
 </idea-plugin>
