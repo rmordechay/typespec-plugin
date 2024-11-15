@@ -16,9 +16,6 @@ class TsTypedHandler : TypedHandlerDelegate() {
         return Result.CONTINUE
     }
 
-    /**
-     *
-     */
     private fun handleQuote(quoteChar: Char, editor: Editor) {
         val offset = editor.caretModel.offset
         val text = editor.document.text
@@ -34,9 +31,6 @@ class TsTypedHandler : TypedHandlerDelegate() {
         editor.caretModel.moveToOffset(offset)
     }
 
-    /**
-     *
-     */
     private fun isQuoteChar(c: Char): Boolean {
         return c == '"' || c == '\'' || c == '`'
     }

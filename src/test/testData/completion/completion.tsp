@@ -1,0 +1,3 @@
+model A {
+    a: <caret>;
+}

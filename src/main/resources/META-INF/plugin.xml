@@ -16,5 +16,6 @@
         <typedHandler implementation="typespec.editor.TsTypedHandler"/>
         <psi.referenceContributor language="TypeSpec" implementation="typespec.psi.TsReferenceContributor"/>
         <lang.findUsagesProvider language="TypeSpec" implementationClass="typespec.psi.TsFindUsage"/>
+        <completion.contributor language="TypeSpec" implementationClass="typespec.completion.TsCompletionContributor"/>
     </extensions>
 </idea-plugin>
