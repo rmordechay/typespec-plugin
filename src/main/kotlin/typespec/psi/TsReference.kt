@@ -10,14 +10,15 @@ import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.*
 import com.intellij.psi.tree.TokenSet
 import com.intellij.psi.util.PsiTreeUtil.*
+import com.intellij.psi.util.PsiUtilCore
 import com.intellij.psi.util.childrenOfType
-import com.intellij.testFramework.utils.vfs.getPsiFile
 import com.intellij.util.ProcessingContext
 import typespec.TsTypes
 import typespec.language.COMMENTS_SET
 import typespec.language.STRING_LITERAL_SET
 import typespec.language.TsLexer
 import typespec.psi.interfaces.TsIdentifierVariable
+import typespec.psi.interfaces.TsImportStatement
 import typespec.psi.interfaces.TsStringLiteral
 import typespec.psi.interfaces.TsTypeSpecScriptItem
 
@@ -45,17 +46,14 @@ class TsReference(element: TsVariable, textRange: TextRange) : PsiReferenceBase<
     /**
      *
      */
-    private fun getReferenceFromItem(prevItem: TsTypeSpecScriptItem?): PsiElement? {
-        if (prevItem?.statement != null) {
-            val firstStmtChild = prevItem.statement?.firstChild
+    private fun getReferenceFromItem(item: TsTypeSpecScriptItem?): PsiElement? {
+        if (item?.statement != null) {
+            val firstStmtChild = item.statement?.firstChild
             if (firstStmtChild is TsNamedElement && firstStmtChild.name == element.name) {
                 return firstStmtChild
             }
-        } else if (prevItem?.importStatement != null) {
-            val importStmt = prevItem.importStatement!!
-            val stringLiteral = getStringLiteral(importStmt.stringLiteral)
-            val importFile = getImportFile(stringLiteral, importStmt.containingFile.virtualFile, importStmt.project)
-            val importedElement = walkFile(importFile)
+        } else if (item?.importStatement != null) {
+            val importedElement = walkFile(item.importStatement!!)
             if (importedElement != null) {
                 return importedElement
             }
@@ -66,8 +64,12 @@ class TsReference(element: TsVariable, textRange: TextRange) : PsiReferenceBase<
     /**
      *
      */
-    private fun walkFile(psiFile: PsiFile?): PsiElement? {
-        val items = psiFile?.childrenOfType<TsTypeSpecScriptItem>() ?: return null
+    private fun walkFile(importStmt: TsImportStatement): PsiElement? {
+        val currentFileName = element.containingFile.name
+        val importFileName = getStringLiteral(importStmt.stringLiteral)
+        if (importFileName == currentFileName) return null
+        val importFile = getImportFile(importFileName, importStmt.containingFile.virtualFile, importStmt.project)
+        val items = importFile?.childrenOfType<TsTypeSpecScriptItem>() ?: return null
         for (item in items) {
             val firstStmtChild = item.statement?.firstChild ?: continue
             if (firstStmtChild is TsNamedElement && firstStmtChild.name == element.name) {
@@ -140,5 +142,6 @@ fun getStringLiteral(stringLiteral: TsStringLiteral): String? {
  */
 fun getImportFile(targetPathString: String?, baseFile: VirtualFile?, project: Project?): PsiFile? {
     if (project == null || baseFile == null || targetPathString == null) return null
-    return baseFile.parent?.findFileByRelativePath(targetPathString)?.getPsiFile(project)
+    val file = baseFile.parent?.findFileByRelativePath(targetPathString) ?: return null
+    return PsiUtilCore.getPsiFile(project, file)
 }

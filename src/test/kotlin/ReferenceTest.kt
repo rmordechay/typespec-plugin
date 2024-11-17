@@ -1,10 +1,7 @@
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
 import typespec.psi.interfaces.TsAliasStatement
 import typespec.psi.interfaces.TsEnumStatement
-import typespec.psi.interfaces.TsInterfaceStatement
 import typespec.psi.interfaces.TsModelStatement
-import typespec.psi.interfaces.TsNamespaceStatement
-import typespec.psi.interfaces.TsOperationStatement
 import typespec.psi.interfaces.TsScalarStatement
 
 class ReferenceTest : BasePlatformTestCase() {
@@ -49,5 +46,11 @@ class ReferenceTest : BasePlatformTestCase() {
         val resolve = reference?.resolve()
         assertInstanceOf(resolve, TsModelStatement::class.java)
         assertEquals("Animal", (resolve as TsModelStatement).name)
+    }
+
+    fun testImportRecursiveReference() {
+        val reference = myFixture.getReferenceAtCaretPosition("import/import3.tsp")
+        val resolve = reference?.resolve()
+        assertNull(resolve)
     }
 }
