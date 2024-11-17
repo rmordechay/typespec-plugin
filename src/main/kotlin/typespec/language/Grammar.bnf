@@ -61,11 +61,11 @@
         SUPPRESS="suppress"
         DEPRECATED="deprecated"
 
-        STRING_LITERAL1="regexp:'.*'"
-        STRING_LITERAL2="regexp:`.*`"
-        STRING_LITERAL3='regexp:\".*\"'
-        STRING_LITERAL4="regexp:'''([^']|'{0,2}[^'])*'''"
-        STRING_LITERAL5="regexp:\"\"\"([^\"]|\"{0,2}[^\"])*\"\"\""
+        STRING_LITERAL1='regexp:\".*\"'
+        STRING_LITERAL2="regexp:'.*'"
+        STRING_LITERAL3="regexp:`.*`"
+        STRING_LITERAL4="regexp:\"\"\"([^\"]|\"{0,2}[^\"])*\"\"\""
+        STRING_LITERAL5="regexp:'''([^']|'{0,2}[^'])*'''"
         INT_LITERAL='regexp:\d+'
         FLOAT_LITERAL='regexp:\d+\.\d+'
         IDENTIFIER="regexp:[a-zA-Z_$]+\w*"
@@ -77,7 +77,7 @@ private typeSpecFile ::= TypeSpecScript
 private TypeSpecScript ::=
         TypeSpecScriptItem*
 
-private TypeSpecScriptItem ::=
+TypeSpecScriptItem ::=
         BlocklessNamespaceStatement
     |   ImportStatement
     |   Statement
@@ -95,7 +95,7 @@ private DeprecatedStatement ::=
 BlocklessNamespaceStatement ::=
         DecoratorList? NAMESPACE IdentifierOrMemberExpression SEMICOLON
 
-private ImportStatement ::=
+ImportStatement ::=
         IMPORT StringLiteral SEMICOLON
 
 StatementList ::=
@@ -373,7 +373,7 @@ IdentifierVariable ::=
         IDENTIFIER
     {   mixin="typespec.psi.TsVariable" }
 
-private StringLiteral ::=
+StringLiteral ::=
         STRING_LITERAL1
     |   STRING_LITERAL2
     |   STRING_LITERAL3

@@ -1,0 +1,3 @@
+model Animal {
+  species: string;
+}

@@ -19,23 +19,35 @@ class ReferenceTest : BasePlatformTestCase() {
         assertNotNull(resolve)
         assertInstanceOf(resolve, TsAliasStatement::class.java)
         assertEquals("\"test string\"", (resolve as TsAliasStatement).expression.text)
+        assertEquals("var", resolve.name)
     }
 
     fun testEnumReference() {
         val reference = myFixture.getReferenceAtCaretPosition("enum.tsp")
         val resolve = reference?.resolve()
         assertInstanceOf(resolve, TsEnumStatement::class.java)
+        assertEquals("Direction", (resolve as TsEnumStatement).name)
     }
 
     fun testScalarReference() {
         val reference = myFixture.getReferenceAtCaretPosition("scalar.tsp")
         val resolve = reference?.resolve()
         assertInstanceOf(resolve, TsScalarStatement::class.java)
+        assertEquals("Password", (resolve as TsScalarStatement).name)
     }
 
     fun testModelReference() {
         val reference = myFixture.getReferenceAtCaretPosition("model.tsp")
         val resolve = reference?.resolve()
         assertInstanceOf(resolve, TsModelStatement::class.java)
+        assertEquals("Animal", (resolve as TsModelStatement).name)
+    }
+
+    fun testImportReference() {
+        myFixture.configureByFiles("import1.tsp")
+        val reference = myFixture.getReferenceAtCaretPosition("import/import2.tsp")
+        val resolve = reference?.resolve()
+        assertInstanceOf(resolve, TsModelStatement::class.java)
+        assertEquals("Animal", (resolve as TsModelStatement).name)
     }
 }

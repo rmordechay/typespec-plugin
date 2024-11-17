@@ -71,11 +71,11 @@ DEPRECATED="deprecated"
 
 IDENTIFIER=[a-zA-Z_$]+\w*
 BOOL_LITERAL=false|true
-STRING_LITERAL1='.*'
-STRING_LITERAL2=`.*`
-STRING_LITERAL3=\".*\"
-STRING_LITERAL4='''([^']|'{0,2}[^'])*'''
-STRING_LITERAL5=\"\"\"([^\"]|\"{0,2}[^\"])*\"\"\"
+STRING_LITERAL1=\".*\"
+STRING_LITERAL2='.*'
+STRING_LITERAL3=`.*`
+STRING_LITERAL4=\"\"\"([^\"]|\"{0,2}[^\"])*\"\"\"
+STRING_LITERAL5='''([^']|'{0,2}[^'])*'''
 INT_LITERAL=\d+
 FLOAT_LITERAL={INT_LITERAL}"."{INT_LITERAL}
 

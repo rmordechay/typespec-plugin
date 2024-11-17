@@ -1,3 +1,3 @@
-alias bla = "test string";
+alias var = "test string";
 
-alias bla2 = <caret>bla;
+alias var2 = <caret>var;
